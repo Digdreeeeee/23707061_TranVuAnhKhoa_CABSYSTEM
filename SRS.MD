@@ -203,7 +203,7 @@ Ma trận Stakeholders của dự án CAB System
                          STAKEHOLDER POWER–INTEREST MATRIX
 
 
-        quadrantChart
+quadrantChart
     title Stakeholder Power–Interest Matrix - CAB System
     x-axis "Mức độ quan tâm thấp" --> "Mức độ quan tâm cao"
     y-axis "Mức độ ảnh hưởng thấp" --> "Mức độ ảnh hưởng cao"
