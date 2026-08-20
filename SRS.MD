@@ -201,8 +201,6 @@ Power cao	Keep Satisfied – Duy trì sự hài lòng	Manage Closely – Quản 
 Power thấp	Monitor – Theo dõi	Keep Informed – Cập nhật thường xuyên
 Ma trận Stakeholders của dự án CAB System
                          STAKEHOLDER POWER–INTEREST MATRIX
-
-
 quadrantChart
     title Stakeholder Power–Interest Matrix - CAB System
     x-axis "Mức độ quan tâm thấp" --> "Mức độ quan tâm cao"
@@ -217,7 +215,7 @@ quadrantChart
     "Nhân viên vận hành": [0.90, 0.85]
     "Khách hàng": [0.95, 0.75]
     "Tài xế": [0.90, 0.70]
-    "Nhà cung cấp thanh toán": [0.70, 0.40]         
+    "Nhà cung cấp thanh toán": [0.70, 0.40]
 
 Lưu ý: Vị trí của nhà cung cấp thanh toán bên ngoài là đánh giá sơ bộ dựa trên tài liệu. Tài liệu chỉ xác định họ là bên cung cấp dịch vụ thanh toán được tích hợp với CAB, chưa mô tả quyền quyết định hoặc mức độ ảnh hưởng cụ thể của họ. Vì vậy, nhóm nên xác nhận thêm với khách hàng trước khi chốt ma trận chính thức.
 
