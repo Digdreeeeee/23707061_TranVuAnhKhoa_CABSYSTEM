@@ -176,4 +176,79 @@ Từ yêu cầu sơ khởi, nhóm xác định **CAB System không chỉ là m�
 
 Bên cạnh việc đáp ứng nhu cầu của khách hàng, hệ thống còn phải hỗ trợ bộ phận vận hành quản lý tập trung, cung cấp dữ liệu phục vụ theo dõi hoạt động và đảm bảo các yêu cầu về bảo mật, ổn định, khả năng mở rộng và phát triển trong tương lai. Vì vậy, trước khi chuyển sang giai đoạn thiết kế và phát triển, nhóm cần tiếp tục làm rõ các điểm chưa xác định với khách hàng để đảm bảo yêu cầu được hiểu thống nhất giữa **khách hàng – Business Analyst – nhóm phát triển**.
 
+BƯỚC 2: XÁC ĐỊNH VÀ PHÂN TÍCH STAKEHOLDERS
+1. Danh sách Stakeholders
+Tên Stakeholder	Vai trò
+Ban giám đốc / Ban lãnh đạo Công ty ABC	Là bên đưa ra định hướng và kỳ vọng đối với hệ thống. Xác định mục tiêu kinh doanh, yêu cầu khả năng mở rộng và nhu cầu báo cáo về số chuyến, doanh thu, tỷ lệ hoàn thành, tỷ lệ hủy và hiệu quả hoạt động của tài xế.
+Khách hàng	Người trực tiếp sử dụng dịch vụ CAB. Thực hiện đăng ký, đặt xe, theo dõi chuyến đi, thanh toán, xem lịch sử và đánh giá tài xế.
+Tài xế	Người trực tiếp cung cấp dịch vụ vận chuyển. Nhận và xử lý yêu cầu chuyến, cập nhật trạng thái chuyến, thông tin phương tiện và vị trí.
+Nhân viên vận hành	Quản lý và giám sát hoạt động của hệ thống. Quản lý khách hàng, tài xế, phương tiện, chuyến đi; xử lý các trường hợp lỗi và tra cứu giao dịch.
+Nhà cung cấp dịch vụ thanh toán bên ngoài	Cung cấp dịch vụ thanh toán điện tử được tích hợp với CAB System. Xử lý giao dịch thanh toán nhưng thông tin thanh toán nhạy cảm không được lưu trực tiếp trong hệ thống CAB.
+
+Cơ sở xác định: Tài liệu nêu rõ ba nhóm người dùng chính gồm khách hàng, tài xế và nhân viên vận hành; đồng thời đề cập đến Ban lãnh đạo trong việc đưa ra kỳ vọng về hệ thống và nhà cung cấp thanh toán bên ngoài trong quy trình thanh toán.
+
+2. Stakeholders Matrix
+
+Để đánh giá mức độ quan trọng của các stakeholder, nhóm sử dụng Stakeholder Power–Interest Matrix, dựa trên hai tiêu chí:
+
+Power (Mức độ ảnh hưởng): Khả năng tác động đến quyết định, phạm vi, yêu cầu và sự thành công của hệ thống.
+Interest (Mức độ quan tâm): Mức độ stakeholder sử dụng, phụ thuộc hoặc quan tâm đến hoạt động của hệ thống.
+
+Có thể chia thành 4 nhóm:
+
+	Interest thấp	Interest cao
+Power cao	Keep Satisfied – Duy trì sự hài lòng	Manage Closely – Quản lý chặt chẽ
+Power thấp	Monitor – Theo dõi	Keep Informed – Cập nhật thường xuyên
+Ma trận Stakeholders của dự án CAB System
+                         STAKEHOLDER POWER–INTEREST MATRIX
+
+
+        quadrantChart
+    title Stakeholder Power–Interest Matrix - CAB System
+    x-axis "Mức độ quan tâm thấp" --> "Mức độ quan tâm cao"
+    y-axis "Mức độ ảnh hưởng thấp" --> "Mức độ ảnh hưởng cao"
+
+    quadrant-1 "Manage Closely - Quản lý chặt chẽ"
+    quadrant-2 "Keep Satisfied - Duy trì sự hài lòng"
+    quadrant-3 "Monitor - Theo dõi"
+    quadrant-4 "Keep Informed - Cập nhật thường xuyên"
+
+    "Ban giám đốc": [0.85, 0.95]
+    "Nhân viên vận hành": [0.90, 0.85]
+    "Khách hàng": [0.95, 0.75]
+    "Tài xế": [0.90, 0.70]
+    "Nhà cung cấp thanh toán": [0.70, 0.40]         
+
+Lưu ý: Vị trí của nhà cung cấp thanh toán bên ngoài là đánh giá sơ bộ dựa trên tài liệu. Tài liệu chỉ xác định họ là bên cung cấp dịch vụ thanh toán được tích hợp với CAB, chưa mô tả quyền quyết định hoặc mức độ ảnh hưởng cụ thể của họ. Vì vậy, nhóm nên xác nhận thêm với khách hàng trước khi chốt ma trận chính thức.
+
+3. Giải thích mức độ quan trọng
+
+Ban giám đốc – Power cao / Interest cao
+
+Ban giám đốc là stakeholder có ảnh hưởng rất lớn vì đưa ra định hướng, kỳ vọng và các mục tiêu của hệ thống. Họ quan tâm trực tiếp đến khả năng mở rộng, hiệu quả vận hành và các báo cáo kinh doanh. Do đó cần được quản lý chặt chẽ và thường xuyên xác nhận yêu cầu.
+
+Nhân viên vận hành – Power cao / Interest cao
+
+Nhân viên vận hành trực tiếp sử dụng giao diện quản trị và tham gia xử lý các hoạt động quan trọng như quản lý chuyến, tài xế, khách hàng và sự cố. Vì vậy, yêu cầu của nhóm này có ảnh hưởng lớn đến thiết kế hệ thống và cần được tham gia thường xuyên trong quá trình phân tích.
+
+Khách hàng – Power cao / Interest cao
+
+Khách hàng là đối tượng sử dụng dịch vụ chính. Họ trực tiếp tương tác với các chức năng cốt lõi như đặt xe, theo dõi chuyến, thanh toán và đánh giá. Mặc dù không trực tiếp quyết định kiến trúc hệ thống, nhu cầu của khách hàng có ảnh hưởng lớn đến phạm vi và chất lượng sản phẩm.
+
+Tài xế – Power cao / Interest cao
+
+Tài xế là một tác nhân vận hành quan trọng, trực tiếp tiếp nhận và thực hiện chuyến xe. Hệ thống phụ thuộc vào việc tài xế nhận chuyến, cập nhật trạng thái và cung cấp vị trí để quá trình phân công và theo dõi chuyến hoạt động chính xác.
+
+Nhà cung cấp thanh toán – Power thấp / Interest cao
+
+Nhà cung cấp thanh toán có liên quan trực tiếp đến chức năng thanh toán điện tử nhưng không được tài liệu mô tả là bên quyết định phạm vi hoặc nghiệp vụ của CAB System. Vì vậy, ở giai đoạn sơ bộ có thể xếp vào nhóm Power thấp – Interest cao. Tuy nhiên, mức độ ảnh hưởng thực tế cần được xác nhận thêm.
+
+4. Kết luận Stakeholder Analysis
+
+Qua phân tích, nhóm xác định 5 stakeholder chính có liên quan trực tiếp hoặc được đề cập trong tài liệu. Trong đó, Ban giám đốc, nhân viên vận hành, khách hàng và tài xế là các stakeholder cần được ưu tiên quản lý chặt chẽ vì có mức độ quan tâm và ảnh hưởng lớn đến sự thành công của CAB System.
+
+Đặc biệt, khách hàng và tài xế là hai nhóm tác nhân trực tiếp tham gia vào quy trình đặt và thực hiện chuyến, trong khi nhân viên vận hành và Ban giám đốc có vai trò quan trọng trong quản lý, kiểm soát và định hướng hệ thống. Nhà cung cấp thanh toán là stakeholder bên ngoài có liên quan đến một thành phần quan trọng của hệ thống và cần được phối hợp khi triển khai chức năng thanh toán.
+
+Đối với bài nộp GitHub, mình khuyên nhóm nên giữ đúng cấu trúc “Danh sách Stakeholders → Stakeholder Matrix → Giải thích vị trí từng stakeholder → Kết luận” như trên. Cách này thể hiện rõ nhóm không chỉ liệt kê stakeholder mà đã thực sự phân tích mức độ ảnh hưởng và mức độ quan tâm của từng bên, đúng tinh thần của bước phân tích stakeholder.
+
 
