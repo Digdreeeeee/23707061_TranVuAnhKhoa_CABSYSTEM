@@ -2376,3 +2376,264 @@ erDiagram
 
     DRIVER ||--o{ RATING : receives
 ```
+
+
+BƯỚC 10: XÁC ĐỊNH NON-FUNCTIONAL REQUIREMENTS (NFR)
+10.1. Mục tiêu
+
+Sau khi xác định Business Rules (BR), Functional Requirements (FR) và xây dựng Data Model/ERD, bước tiếp theo là xác định các Non-Functional Requirements (NFR).
+
+NFR mô tả các yêu cầu về chất lượng, hiệu năng, bảo mật, độ tin cậy và khả năng sử dụng của hệ thống, tức là xác định hệ thống phải hoạt động như thế nào, thay vì hệ thống phải thực hiện chức năng gì.
+
+Đối với hệ thống đặt xe, các NFR cần tập trung vào:
+
+Hiệu năng (Performance)
+Tính khả dụng (Availability)
+Bảo mật (Security)
+Độ tin cậy (Reliability)
+Khả năng mở rộng (Scalability)
+Khả năng sử dụng (Usability)
+Tính chính xác (Accuracy)
+Khả năng bảo trì (Maintainability)
+10.2. Danh sách Non-Functional Requirements
+NFR01 – Hiệu năng tìm kiếm tài xế
+
+Mô tả:
+
+Hệ thống phải tìm kiếm và xác định danh sách tài xế phù hợp trong thời gian ngắn sau khi khách hàng gửi yêu cầu đặt xe.
+
+Tiêu chí:
+
+Hệ thống phải trả về danh sách tài xế phù hợp trong vòng ≤ 3 giây trong điều kiện tải bình thường.
+Hệ thống phải ưu tiên xử lý các tài xế đang ONLINE/AVAILABLE.
+Việc tìm kiếm phải dựa trên vị trí hiện tại của tài xế và khách hàng.
+
+Liên quan:
+
+BR01
+FR01
+FR02
+DRIVER
+BOOKING
+DRIVER_ASSIGNMENT
+
+NFR02 – Thời gian phản hồi của hệ thống
+
+Mô tả:
+
+Hệ thống phải phản hồi nhanh đối với các thao tác chính của người dùng.
+
+Tiêu chí:
+| Chức năng                  | Thời gian phản hồi tối đa |
+| -------------------------- | ------------------------: |
+| Đăng nhập                  |                  ≤ 2 giây |
+| Tạo booking                |                  ≤ 3 giây |
+| Tìm tài xế                 |                  ≤ 3 giây |
+| Cập nhật trạng thái chuyến |                  ≤ 2 giây |
+| Thanh toán                 |                  ≤ 5 giây |
+
+10.3. NFR03 – Tính khả dụng (Availability)
+
+Mô tả:
+
+Hệ thống phải hoạt động ổn định để khách hàng có thể đặt xe và tài xế có thể nhận chuyến.
+
+Tiêu chí:
+
+Hệ thống phải có thời gian hoạt động tối thiểu 99,5%/tháng.
+Hệ thống phải có khả năng hoạt động liên tục 24/7.
+Khi xảy ra lỗi tạm thời, hệ thống phải thông báo cho người dùng thay vì bị treo hoặc mất dữ liệu.
+10.4. NFR04 – Độ tin cậy (Reliability)
+
+Mô tả:
+
+Hệ thống phải đảm bảo dữ liệu và trạng thái chuyến đi được xử lý chính xác, không xảy ra tình trạng một chuyến được phân cho nhiều tài xế cùng lúc.
+
+Tiêu chí:
+
+Một BOOKING chỉ được xác nhận với một tài xế.
+Khi một tài xế đã ACCEPTED, hệ thống phải ngừng gửi yêu cầu đến các tài xế khác.
+Nếu tài xế không phản hồi trong thời gian quy định, yêu cầu phải chuyển sang EXPIRED.
+Hệ thống phải tiếp tục chọn tài xế tiếp theo nếu tài xế hiện tại từ chối hoặc hết thời gian phản hồi.
+10.5. NFR05 – Bảo mật (Security)
+
+Mô tả:
+
+Hệ thống phải bảo vệ thông tin cá nhân của khách hàng và tài xế.
+
+Tiêu chí:
+
+Mật khẩu phải được lưu dưới dạng mã hóa/hash.
+Thông tin tài khoản phải được bảo vệ khỏi truy cập trái phép.
+Chỉ người dùng có quyền mới được truy cập dữ liệu tương ứng.
+Thông tin thanh toán phải được bảo vệ trong quá trình truyền và lưu trữ.
+Các thao tác quan trọng phải được xác thực trước khi thực hiện.
+10.6. NFR06 – Bảo vệ thông tin vị trí
+
+Do hệ thống sử dụng vị trí của khách hàng và tài xế để tìm kiếm trong phạm vi 1 km, dữ liệu vị trí phải được bảo vệ.
+
+Tiêu chí:
+
+Chỉ sử dụng vị trí khi cần thiết cho việc tìm và thực hiện chuyến xe.
+Không cho phép người dùng không có quyền truy cập vị trí của tài xế.
+Dữ liệu vị trí phải được truyền qua kết nối an toàn.
+Hệ thống không được công khai vị trí chính xác của khách hàng hoặc tài xế.
+10.7. NFR07 – Tính chính xác của dữ liệu vị trí
+
+Mô tả:
+
+Hệ thống phải sử dụng dữ liệu vị trí đủ chính xác để xác định tài xế gần khách hàng.
+
+Tiêu chí:
+
+Vị trí tài xế phải được cập nhật thường xuyên khi tài xế ở trạng thái ONLINE.
+Hệ thống phải tính khoảng cách dựa trên tọa độ hiện tại.
+Tài xế chỉ được đưa vào danh sách ưu tiên nếu đáp ứng điều kiện khoảng cách quy định.
+Khi dữ liệu vị trí không hợp lệ hoặc quá cũ, hệ thống không nên sử dụng dữ liệu đó để phân tài xế.
+10.8. NFR08 – Khả năng mở rộng (Scalability)
+
+Mô tả:
+
+Hệ thống phải có khả năng phục vụ số lượng khách hàng và tài xế tăng lên trong tương lai.
+
+Tiêu chí:
+
+Có thể mở rộng số lượng người dùng mà không cần thay đổi toàn bộ hệ thống.
+Có thể xử lý đồng thời nhiều yêu cầu đặt xe.
+Có thể mở rộng từ phạm vi nhỏ lên nhiều khu vực/thành phố.
+Database phải được thiết kế để hỗ trợ lượng dữ liệu ngày càng lớn.
+10.9. NFR09 – Khả năng sử dụng (Usability)
+
+Mô tả:
+
+Giao diện phải đơn giản và dễ sử dụng đối với cả khách hàng và tài xế.
+
+Tiêu chí:
+
+Khách hàng có thể tạo yêu cầu đặt xe với số bước tối thiểu.
+Thông tin quan trọng như điểm đón, loại xe, tài xế và giá tiền phải dễ nhìn.
+Trạng thái chuyến xe phải được hiển thị rõ ràng.
+Thông báo lỗi phải dễ hiểu và hướng dẫn người dùng cách xử lý.
+10.10. NFR10 – Khả năng tương thích (Compatibility)
+
+Hệ thống phải có khả năng hoạt động trên các nền tảng phổ biến.
+
+Tiêu chí:
+
+Ứng dụng khách hàng và tài xế phải hoạt động ổn định trên các thiết bị được hỗ trợ.
+Hệ thống phải tương thích với các trình duyệt phổ biến nếu triển khai trên Web.
+Hệ thống phải có khả năng tích hợp với dịch vụ bản đồ/GPS.
+Hệ thống phải có khả năng tích hợp với các phương thức thanh toán khác nhau.
+10.11. NFR11 – Khả năng bảo trì (Maintainability)
+
+Mô tả:
+
+Hệ thống phải được thiết kế để dễ dàng sửa lỗi, nâng cấp và bổ sung chức năng.
+
+Tiêu chí:
+
+Source code phải được tổ chức theo module.
+Các module như Booking, Driver, Payment, Rating nên được tách biệt.
+Database phải có cấu trúc rõ ràng và hạn chế dữ liệu trùng lặp.
+Các lỗi hệ thống phải được ghi log để hỗ trợ việc kiểm tra và bảo trì.
+10.12. NFR12 – Khả năng phục hồi dữ liệu (Backup & Recovery)
+
+Mô tả:
+
+Hệ thống phải có khả năng khôi phục dữ liệu khi xảy ra sự cố.
+
+Tiêu chí:
+
+Database phải được backup định kỳ.
+Dữ liệu booking và trip không được mất khi hệ thống gặp sự cố.
+Có cơ chế khôi phục dữ liệu sau lỗi.
+Các giao dịch thanh toán phải đảm bảo tính toàn vẹn dữ liệu.
+10.13. NFR13 – Audit và Logging
+
+Hệ thống phải lưu lại các hoạt động quan trọng để có thể kiểm tra khi xảy ra sự cố.
+
+Các hoạt động cần ghi log:
+
+Đăng nhập
+     ↓
+Tạo Booking
+     ↓
+Tìm tài xế
+     ↓
+Gửi yêu cầu cho tài xế
+     ↓
+Tài xế Accept / Reject / Expired
+     ↓
+Bắt đầu chuyến
+     ↓
+Hoàn thành chuyến
+     ↓
+Thanh toán
+     ↓
+Đánh giá
+
+Thông tin log tối thiểu:
+
+Người thực hiện.
+Thời gian thực hiện.
+Hành động.
+Đối tượng bị tác động.
+Kết quả thực hiện.
+
+10.14. Bảng tổng hợp NFR
+| ID        | Non-Functional Requirement | Tiêu chí chính                   |
+| --------- | -------------------------- | -------------------------------- |
+| **NFR01** | Hiệu năng tìm tài xế       | ≤ 3 giây                         |
+| **NFR02** | Thời gian phản hồi         | ≤ 2–5 giây tùy chức năng         |
+| **NFR03** | Tính khả dụng              | ≥ 99,5%/tháng                    |
+| **NFR04** | Độ tin cậy                 | Không phân trùng tài xế          |
+| **NFR05** | Bảo mật                    | Bảo vệ tài khoản và dữ liệu      |
+| **NFR06** | Bảo mật vị trí             | Chỉ sử dụng vị trí khi cần       |
+| **NFR07** | Chính xác vị trí           | Cập nhật và kiểm tra dữ liệu GPS |
+| **NFR08** | Khả năng mở rộng           | Hỗ trợ tăng người dùng/dữ liệu   |
+| **NFR09** | Khả năng sử dụng           | Giao diện đơn giản, dễ hiểu      |
+| **NFR10** | Tương thích                | Web/Mobile/Map/Payment           |
+| **NFR11** | Khả năng bảo trì           | Module hóa, dễ nâng cấp          |
+| **NFR12** | Backup & Recovery          | Backup và khôi phục dữ liệu      |
+| **NFR13** | Logging/Audit              | Theo dõi các thao tác quan trọng |
+10.15. Liên kết giữa BR – FR – NFR
+
+Có thể tổng hợp chuỗi yêu cầu của hệ thống như sau:
+
+BUSINESS RULE
+     │
+     │ BR01
+     ▼
+FUNCTIONAL REQUIREMENT
+     │
+     ├── FR01: Tìm tài xế
+     ├── FR02: Tìm tài xế online trong 1KM
+     ├── FR03: Lọc theo loại xe
+     └── FR04: Ưu tiên tài xế đánh giá cao
+     │
+     ▼
+DATA MODEL
+     │
+     ├── CUSTOMER
+     ├── DRIVER
+     ├── VEHICLE
+     ├── BOOKING
+     └── DRIVER_ASSIGNMENT
+     │
+     ▼
+NON-FUNCTIONAL REQUIREMENT
+     │
+     ├── NFR01: Tìm tài xế ≤ 3 giây
+     ├── NFR03: Availability ≥ 99,5%
+     ├── NFR04: Không phân trùng tài xế
+     ├── NFR05: Bảo mật dữ liệu
+     ├── NFR07: Chính xác vị trí
+     └── NFR08: Có khả năng mở rộng
+
+Kết luận
+
+NFR không mô tả hệ thống “làm gì”, mà mô tả hệ thống phải “làm tốt như thế nào”.
+
+Đối với hệ thống đặt xe, các NFR quan trọng nhất cần ưu tiên là hiệu năng tìm tài xế, độ tin cậy khi phân tài xế, bảo mật thông tin cá nhân/vị trí, tính chính xác của GPS, khả năng mở rộng và tính khả dụng của hệ thống. Các NFR này sẽ được dùng làm cơ sở để đánh giá chất lượng hệ thống sau khi triển khai.
+
+
