@@ -521,5 +521,326 @@ Các Business Goal này thể hiện những kết quả mà Công ty ABC mong m
 
 Trong đó, **BG01** tập trung giải quyết vấn đề phân công tài xế thủ công; **BG02** giải quyết vấn đề khó theo dõi chuyến đi; **BG03** đáp ứng nhu cầu thanh toán bằng tiền mặt và trực tuyến; **BG04** cải thiện hoạt động quản lý và vận hành; và **BG05** đảm bảo hệ thống có khả năng mở rộng, phát triển lâu dài theo định hướng của doanh nghiệp. Những mục tiêu này được xây dựng dựa trên các vấn đề hiện tại và kỳ vọng của khách hàng được nêu trong tài liệu yêu cầu.
 
+# BƯỚC 4: XÁC ĐỊNH PHẠM VI YÊU CẦU VÀ CÁC MODULE CỦA HỆ THỐNG
+
+## 1. Mục tiêu xác định phạm vi
+
+Sau khi phân tích yêu cầu sơ khởi và xác định các Business Goal, nhóm tiến hành xác định **phạm vi của hệ thống CAB System** nhằm làm rõ:
+
+* Những chức năng và yêu cầu nào **cần thực hiện trong dự án**.
+* Những chức năng nào **chưa thực hiện hoặc không thuộc phạm vi hiện tại**.
+* Xác định các **module nghiệp vụ cơ bản** của hệ thống.
+* Làm cơ sở để phân chia công việc, xác định yêu cầu và lập kế hoạch phát triển.
+* Hạn chế tình trạng **scope creep** – phát sinh thêm chức năng ngoài phạm vi trong quá trình phát triển.
+
+Theo tài liệu, CAB System được định hướng là một nền tảng đặt xe có khả năng hỗ trợ toàn bộ quy trình từ **tạo yêu cầu đặt xe → tìm và phân công tài xế → thực hiện chuyến → tính cước → thanh toán → thông báo → đánh giá sau chuyến**.
+
+---
+
+# 2. Phạm vi của hệ thống
+
+## 2.1. Phạm vi trong dự án (In Scope)
+
+Các chức năng dưới đây được xác định là **nằm trong phạm vi thực hiện** dựa trên yêu cầu khách hàng.
+
+### 1. Quản lý tài khoản và người dùng
+
+* Đăng ký tài khoản khách hàng.
+* Đăng nhập.
+* Cập nhật thông tin cá nhân.
+* Quản lý tài khoản tài xế.
+* Tạo tài khoản tài xế bởi nhân viên vận hành.
+* Cập nhật hồ sơ tài xế.
+* Quản lý thông tin phương tiện.
+* Xác thực người dùng trước khi sử dụng chức năng yêu cầu tài khoản.
+
+### 2. Đặt xe
+
+* Nhập điểm đón.
+* Nhập điểm đến.
+* Lựa chọn loại xe.
+* Gửi yêu cầu đặt xe.
+* Theo dõi quá trình xử lý yêu cầu đặt xe.
+
+### 3. Tìm kiếm và phân công tài xế
+
+* Xác định tài xế phù hợp.
+* Kiểm tra trạng thái sẵn sàng của tài xế.
+* Sử dụng vị trí tài xế để hỗ trợ tìm kiếm.
+* Ưu tiên tài xế phù hợp và gần khách hàng.
+* Gửi yêu cầu chuyến đến tài xế.
+* Cho phép tài xế chấp nhận hoặc từ chối chuyến.
+* Tự động tìm tài xế khác nếu tài xế không phản hồi hoặc từ chối.
+* Thông báo cho khách hàng nếu không tìm được tài xế.
+
+### 4. Quản lý và theo dõi chuyến đi
+
+* Theo dõi trạng thái chuyến.
+* Hiển thị tài xế đã nhận chuyến.
+* Hiển thị thời gian dự kiến tài xế đến.
+* Tài xế cập nhật trạng thái:
+
+  * Đã đến điểm đón.
+  * Đã đón khách.
+  * Đang di chuyển.
+  * Hoàn thành chuyến.
+* Lưu thông tin vị trí tài xế.
+* Theo dõi các chuyến đang diễn ra.
+
+### 5. Tính cước và thanh toán
+
+* Xác định số tiền khách hàng phải trả.
+* Tính cước dựa trên loại dịch vụ và thông tin chuyến đi.
+* Thanh toán bằng tiền mặt.
+* Thanh toán điện tử.
+* Tích hợp với nhà cung cấp thanh toán bên ngoài.
+* Không lưu trực tiếp thông tin thanh toán nhạy cảm.
+* Thông báo kết quả thanh toán.
+* Xử lý lại giao dịch thanh toán điện tử thất bại theo chính sách doanh nghiệp.
+
+### 6. Thông báo
+
+* Thông báo khi yêu cầu đặt xe được tiếp nhận.
+* Thông báo khi tài xế nhận chuyến.
+* Thông báo khi tài xế đến điểm đón.
+* Thông báo khi chuyến hoàn thành.
+* Thông báo kết quả thanh toán.
+* Thông báo cho tài xế về chuyến mới.
+* Thông báo các thay đổi liên quan đến chuyến đang thực hiện.
+* Thiết kế theo hướng có thể mở rộng thêm các kênh thông báo trong tương lai.
+
+### 7. Quản trị và vận hành
+
+* Quản lý khách hàng.
+* Quản lý tài xế.
+* Quản lý phương tiện.
+* Quản lý chuyến đi.
+* Theo dõi các chuyến đang diễn ra.
+* Kiểm tra trạng thái tài xế.
+* Xử lý các trường hợp chuyến bị lỗi.
+* Tra cứu lịch sử giao dịch.
+* Phân quyền chức năng quản trị.
+* Lưu vết các thao tác quan trọng.
+
+### 8. Báo cáo
+
+Hệ thống cần hỗ trợ các báo cáo phục vụ quản lý:
+
+* Số lượng chuyến.
+* Doanh thu.
+* Tỷ lệ chuyến hoàn thành.
+* Tỷ lệ hủy.
+* Hiệu quả hoạt động của tài xế.
+
+---
+
+# 3. Yêu cầu phi chức năng trong phạm vi
+
+Ngoài các chức năng nghiệp vụ, các yêu cầu phi chức năng sau cũng thuộc phạm vi của dự án.
+
+| Mã        | Yêu cầu                    | Nội dung                                                                                          |
+| --------- | -------------------------- | ------------------------------------------------------------------------------------------------- |
+| **NFR01** | Khả năng mở rộng           | Hệ thống có thể phục vụ số lượng lớn khách hàng và tài xế.                                        |
+| **NFR02** | Tính ổn định               | Lỗi tại thanh toán hoặc thông báo không được làm toàn bộ hệ thống đặt xe ngừng hoạt động.         |
+| **NFR03** | Khả năng mở rộng độc lập   | Các thành phần có thể mở rộng độc lập khi tải tăng.                                               |
+| **NFR04** | Triển khai từng phần       | Chức năng mới có thể được triển khai từng phần và hạn chế ảnh hưởng đến chức năng đang hoạt động. |
+| **NFR05** | Bảo mật                    | Xác thực người dùng và kiểm soát quyền truy cập đối với các chức năng quản trị.                   |
+| **NFR06** | Bảo vệ dữ liệu             | Bảo vệ thông tin cá nhân, phương tiện, vị trí và giao dịch.                                       |
+| **NFR07** | Audit Log                  | Lưu vết các thao tác quan trọng để phục vụ kiểm tra khi có sự cố.                                 |
+| **NFR08** | Khả năng mở rộng chức năng | Có thể bổ sung dịch vụ, phương thức thanh toán và nhà cung cấp thông báo trong tương lai.         |
+
+Các yêu cầu trên được xác định trực tiếp từ phần yêu cầu về tính ổn định, khả năng mở rộng, triển khai, bảo mật và khả năng phát triển lâu dài của hệ thống.
+
+---
+
+# 4. Xác định các Module cơ bản
+
+Dựa trên phạm vi yêu cầu, nhóm chia CAB System thành các **module nghiệp vụ chính** như sau:
+
+| Mã Module | Module                 | Mục đích chính                              |
+| --------- | ---------------------- | ------------------------------------------- |
+| **M01**   | Quản lý tài khoản      | Quản lý tài khoản và thông tin người dùng   |
+| **M02**   | Đặt xe                 | Tiếp nhận và quản lý yêu cầu đặt xe         |
+| **M03**   | Tìm & phân công tài xế | Tìm tài xế phù hợp và thực hiện phân công   |
+| **M04**   | Quản lý chuyến đi      | Quản lý trạng thái và thông tin chuyến      |
+| **M05**   | Tính cước & thanh toán | Tính tiền và xử lý thanh toán               |
+| **M06**   | Thông báo              | Gửi thông báo đến khách hàng và tài xế      |
+| **M07**   | Quản trị & vận hành    | Quản lý và giám sát toàn bộ hoạt động       |
+| **M08**   | Báo cáo                | Cung cấp dữ liệu và báo cáo phục vụ quản lý |
+
+---
+
+# 5. MBB – Module Business Breakdown
+
+Bảng MBB được sử dụng để phân rã hệ thống thành các module nghiệp vụ và xác định phạm vi chức năng chính của từng module.
+
+| Module                           | Chức năng chính                                                                             | Đối tượng liên quan                    | Trong phạm vi |
+| -------------------------------- | ------------------------------------------------------------------------------------------- | -------------------------------------- | :-----------: |
+| **M01 – Quản lý tài khoản**      | Đăng ký, đăng nhập, cập nhật thông tin, quản lý hồ sơ tài xế, quản lý phương tiện, xác thực | Khách hàng, Tài xế, Nhân viên vận hành |       ✅       |
+| **M02 – Đặt xe**                 | Nhập điểm đón, điểm đến, chọn loại xe, tạo yêu cầu                                          | Khách hàng                             |       ✅       |
+| **M03 – Tìm & phân công tài xế** | Tìm tài xế, kiểm tra trạng thái, ưu tiên tài xế gần, chuyển sang tài xế khác                | Khách hàng, Tài xế, Hệ thống           |       ✅       |
+| **M04 – Quản lý chuyến đi**      | Theo dõi và cập nhật trạng thái chuyến, vị trí tài xế, lịch sử chuyến                       | Khách hàng, Tài xế, Nhân viên vận hành |       ✅       |
+| **M05 – Tính cước & thanh toán** | Tính cước, tiền mặt, thanh toán điện tử, xử lý giao dịch thất bại                           | Khách hàng, Nhà cung cấp thanh toán    |       ✅       |
+| **M06 – Thông báo**              | Thông báo đặt xe, nhận chuyến, đến điểm đón, hoàn thành, thanh toán                         | Khách hàng, Tài xế                     |       ✅       |
+| **M07 – Quản trị & vận hành**    | Quản lý khách hàng, tài xế, phương tiện, chuyến, giao dịch, xử lý lỗi, phân quyền           | Nhân viên vận hành                     |       ✅       |
+| **M08 – Báo cáo**                | Báo cáo số chuyến, doanh thu, hoàn thành, hủy, hiệu quả tài xế                              | Ban giám đốc, Nhân viên vận hành       |       ✅       |
+
+---
+
+# 6. Những nội dung nên thực hiện
+
+Dựa trên tài liệu, nhóm **nên thực hiện** các nội dung sau trong phạm vi dự án:
+
+### Ưu tiên 1 – Chức năng cốt lõi
+
+* [x] Đăng ký và đăng nhập.
+* [x] Quản lý thông tin khách hàng và tài xế.
+* [x] Tạo yêu cầu đặt xe.
+* [x] Tìm và phân công tài xế.
+* [x] Chấp nhận/từ chối chuyến.
+* [x] Tự động tìm tài xế tiếp theo.
+* [x] Theo dõi trạng thái chuyến.
+* [x] Cập nhật trạng thái chuyến.
+* [x] Tính cước.
+* [x] Thanh toán tiền mặt.
+* [x] Thanh toán điện tử.
+* [x] Thông báo các sự kiện quan trọng.
+
+### Ưu tiên 2 – Quản trị và vận hành
+
+* [x] Quản lý khách hàng.
+* [x] Quản lý tài xế.
+* [x] Quản lý phương tiện.
+* [x] Quản lý chuyến đi.
+* [x] Theo dõi chuyến đang diễn ra.
+* [x] Xử lý chuyến bị lỗi.
+* [x] Tra cứu giao dịch.
+* [x] Phân quyền quản trị.
+* [x] Báo cáo hoạt động.
+
+### Ưu tiên 3 – Yêu cầu nền tảng
+
+* [x] Xác thực và phân quyền.
+* [x] Bảo vệ dữ liệu.
+* [x] Lưu vết thao tác quan trọng.
+* [x] Khả năng mở rộng.
+* [x] Khả năng triển khai từng phần.
+* [x] Khả năng tích hợp thêm dịch vụ trong tương lai.
+
+---
+
+# 7. Những nội dung chưa nên thực hiện trong phạm vi hiện tại
+
+Tài liệu **không mô tả chi tiết** một số nghiệp vụ. Vì vậy, nhóm **không nên tự ý xây dựng hoặc chốt yêu cầu** cho các nội dung này khi chưa được khách hàng xác nhận.
+
+| Nội dung                                                              | Trạng thái       | Lý do                                                                                                     |
+| --------------------------------------------------------------------- | ---------------- | --------------------------------------------------------------------------------------------------------- |
+| **Cách tính cước chi tiết**                                           | ⚠️ Chưa chốt     | Tài liệu chỉ yêu cầu tính cước dựa trên loại dịch vụ và thông tin chuyến, chưa xác định công thức cụ thể. |
+| **Tiêu chí ưu tiên tài xế chi tiết**                                  | ⚠️ Chưa chốt     | Chưa xác định cụ thể trọng số hoặc thứ tự ưu tiên.                                                        |
+| **Thời gian tài xế phải phản hồi**                                    | ⚠️ Chưa chốt     | Tài liệu chưa đưa ra thời gian cụ thể.                                                                    |
+| **Chính sách hủy chuyến**                                             | ⚠️ Chưa chốt     | Chưa xác định điều kiện, phí hoặc quy trình xử lý.                                                        |
+| **Xử lý mất kết nối mạng**                                            | ⚠️ Chưa chốt     | Tài liệu yêu cầu BA làm rõ nhưng chưa đưa ra giải pháp cụ thể.                                            |
+| **Thời gian lưu trữ dữ liệu**                                         | ⚠️ Chưa chốt     | Chưa có thời gian lưu trữ cụ thể.                                                                         |
+| **Chi tiết xử lý thanh toán thất bại**                                | ⚠️ Chưa chốt     | Chỉ yêu cầu cho phép xử lý lại theo chính sách doanh nghiệp.                                              |
+| **Các dịch vụ đặt xe mới ngoài phạm vi hiện tại**                     | ❌ Chưa thực hiện | Chỉ yêu cầu kiến trúc có khả năng mở rộng để bổ sung trong tương lai.                                     |
+| **Các phương thức thanh toán mới ngoài tiền mặt và điện tử hiện tại** | ❌ Chưa thực hiện | Chỉ cần đảm bảo kiến trúc có khả năng mở rộng.                                                            |
+| **Các nhà cung cấp thông báo mới**                                    | ❌ Chưa thực hiện | Tài liệu chỉ yêu cầu khả năng bổ sung trong tương lai.                                                    |
+
+Tài liệu xác nhận rõ các vấn đề như **cách tính cước, tiêu chí ưu tiên tài xế, thời gian phản hồi, chính sách hủy chuyến, mất kết nối mạng và thời gian lưu trữ dữ liệu** vẫn cần được Business Analyst làm rõ với các bên liên quan.
+
+---
+
+# 8. Out of Scope – Ngoài phạm vi thực hiện hiện tại
+
+Để tránh mở rộng phạm vi ngoài yêu cầu của khách hàng, nhóm xác định các nội dung sau **chưa thuộc phạm vi triển khai hiện tại**:
+
+* Các loại dịch vụ CAB mới chưa được khách hàng xác định.
+* Các phương thức thanh toán mới ngoài những phương thức được yêu cầu.
+* Các nhà cung cấp thông báo mới chưa được xác định.
+* Các chính sách nghiệp vụ chưa được khách hàng chốt.
+* Các chức năng chưa được đề cập trong tài liệu yêu cầu.
+
+> **Lưu ý:** Việc xác định Out of Scope không có nghĩa các chức năng này sẽ không bao giờ được phát triển. Tài liệu cho biết kiến trúc CAB System cần đủ linh hoạt để có thể bổ sung các dịch vụ, phương thức thanh toán và nhà cung cấp mới trong tương lai.
+
+---
+
+# 9. Phạm vi tổng quát của CAB System
+
+Có thể mô tả phạm vi hệ thống theo chuỗi nghiệp vụ chính:
+
+```text
+Khách hàng
+    │
+    ▼
+[Đăng ký / Đăng nhập]
+    │
+    ▼
+[Tạo yêu cầu đặt xe]
+    │
+    ▼
+[Tìm & phân công tài xế]
+    │
+    ├── Tài xế nhận chuyến
+    │
+    └── Từ chối / Không phản hồi
+                │
+                ▼
+        [Tìm tài xế khác]
+                │
+                ▼
+       [Thực hiện chuyến]
+                │
+                ▼
+          [Tính cước]
+                │
+        ┌───────┴───────┐
+        ▼               ▼
+   [Tiền mặt]    [Thanh toán điện tử]
+        │               │
+        └───────┬───────┘
+                ▼
+          [Hoàn thành]
+                │
+                ▼
+         [Đánh giá tài xế]
+```
+
+Song song với quy trình trên:
+
+```text
+              ┌─────────────────────┐
+              │ Nhân viên vận hành  │
+              └──────────┬──────────┘
+                         │
+                         ▼
+              [Quản trị & giám sát]
+                         │
+        ┌────────────────┼────────────────┐
+        ▼                ▼                ▼
+    Khách hàng        Tài xế          Chuyến đi
+        │                │                │
+        └────────────────┼────────────────┘
+                         ▼
+                    [Giao dịch]
+                         │
+                         ▼
+                     [Báo cáo]
+```
+
+---
+
+# 10. Kết luận
+
+Qua bước xác định phạm vi, nhóm xác định **CAB System tập trung vào quy trình nghiệp vụ cốt lõi của nền tảng đặt xe**, bao gồm:
+
+> **Quản lý tài khoản → Đặt xe → Tìm và phân công tài xế → Quản lý chuyến đi → Tính cước & thanh toán → Thông báo → Quản trị & vận hành → Báo cáo.**
+
+Trong phạm vi dự án, nhóm ưu tiên triển khai các chức năng cần thiết để đáp ứng các Business Goal đã xác định ở Bước 3, đặc biệt là **giảm thời gian tìm tài xế, nâng cao khả năng theo dõi chuyến đi, hỗ trợ thanh toán linh hoạt và nâng cao hiệu quả vận hành**.
+
+Đồng thời, nhóm **không tự ý đặc tả những yêu cầu mà khách hàng chưa chốt**. Các nội dung như công thức tính cước, tiêu chí ưu tiên tài xế, thời gian phản hồi, chính sách hủy chuyến, xử lý mất kết nối và thời gian lưu trữ dữ liệu sẽ được đưa vào danh sách cần làm rõ với stakeholder trước khi triển khai. Điều này giúp kiểm soát phạm vi và hạn chế phát sinh yêu cầu ngoài kế hoạch.
+
+Việc phân chia thành các module M01–M08 và bảng MBB giúp nhóm có cơ sở để tiếp tục thực hiện các bước phân tích chi tiết hơn như **Use Case, yêu cầu chức năng, Business Rule, Acceptance Criteria và phân chia công việc phát triển**.
+
+
 
 
