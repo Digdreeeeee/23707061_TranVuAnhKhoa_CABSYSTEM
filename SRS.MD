@@ -2246,7 +2246,7 @@ BR01 – Tìm kiếm và lựa chọn tài xế	FR01	Xác định vị trí khá
 - **AC07:** Nếu không còn tài xế phù hợp, hệ thống thông báo cho khách hàng.
 
 BƯỚC 9: MÔ HÌNH ERD
-
+```mermaid
 erDiagram
 
     CUSTOMER {
@@ -2375,3 +2375,4 @@ erDiagram
     CUSTOMER ||--o{ RATING : gives
 
     DRIVER ||--o{ RATING : receives
+```
