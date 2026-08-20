@@ -2795,6 +2795,414 @@ flowchart TD
 
 ```
 
+12. ĐẶC TẢ USE CASE
+12.1. UC01 – Customer
+
+| Thành phần         | Nội dung                                                                                               |
+| ------------------ | ------------------------------------------------------------------------------------------------------ |
+| **Use Case ID**    | UC01                                                                                                   |
+| **Tên Use Case**   | Customer                                                                                               |
+| **Actor chính**    | Customer                                                                                               |
+| **Mục tiêu**       | Cho phép khách hàng sử dụng hệ thống để thực hiện các chức năng liên quan đến đặt và quản lý chuyến xe |
+| **Tiền điều kiện** | Khách hàng đã đăng nhập vào hệ thống                                                                   |
+| **Hậu điều kiện**  | Yêu cầu chuyến xe được tạo thành công hoặc hệ thống thông báo không tìm được tài xế                    |
+| **Trigger**        | Customer muốn đặt một chuyến xe                                                                        |
+| **Related FR**     | FR01, FR02, FR03 và các FR liên quan đến đặt xe                                                        |
+
+Main Flow
+Customer đăng nhập vào hệ thống.
+Customer chọn chức năng Đặt chuyến xe.
+Hệ thống xác định vị trí hiện tại của Customer.
+Customer nhập điểm đến.
+Customer lựa chọn loại xe.
+Hệ thống tìm các tài xế phù hợp.
+Hệ thống ưu tiên tài xế có đánh giá cao.
+Hệ thống gửi yêu cầu chuyến xe đến tài xế.
+Tài xế chấp nhận chuyến.
+Hệ thống xác nhận chuyến xe.
+Customer theo dõi chuyến xe.
+Sau khi hoàn thành, Customer có thể đánh giá tài xế.
+
+12.2. UC02 – Đặt chuyến xe
+
+| Thành phần         | Nội dung                                                 |
+| ------------------ | -------------------------------------------------------- |
+| **Use Case ID**    | UC02                                                     |
+| **Tên Use Case**   | Đặt chuyến xe                                            |
+| **Actor chính**    | Customer                                                 |
+| **Mục tiêu**       | Tạo một yêu cầu đặt xe                                   |
+| **Tiền điều kiện** | Customer đã đăng nhập và có kết nối Internet             |
+| **Trigger**        | Customer chọn chức năng đặt xe                           |
+| **Hậu điều kiện**  | Một yêu cầu chuyến xe được tạo và gửi đến tài xế phù hợp |
+Main Flow
+Customer chọn Đặt xe.
+Hệ thống xác định vị trí hiện tại của Customer.
+Customer nhập điểm đến.
+Customer lựa chọn loại xe.
+Hệ thống tìm tài xế phù hợp.
+Hệ thống lọc các tài xế đang online.
+Hệ thống ưu tiên tài xế trong phạm vi phù hợp.
+Hệ thống ưu tiên tài xế có đánh giá cao.
+Hệ thống gửi yêu cầu đến tài xế được lựa chọn.
+Hệ thống chờ phản hồi của tài xế.
+Nếu tài xế chấp nhận, chuyến xe được xác nhận.
+Hệ thống thông báo thông tin tài xế cho Customer.
+Alternative Flow
+
+A1 – Không có tài xế phù hợp
+
+Hệ thống không tìm thấy tài xế phù hợp.
+Hệ thống thông báo cho Customer.
+Customer có thể thử lại sau.
+
+A2 – Tài xế không phản hồi
+
+Hệ thống gửi yêu cầu đến tài xế.
+Tài xế không phản hồi trong thời gian quy định.
+Hệ thống hủy yêu cầu đối với tài xế hiện tại.
+Hệ thống lựa chọn tài xế tiếp theo.
+Quay lại bước gửi yêu cầu.
+
+12.3. UC03 – Xác định vị trí khách hàng
+
+| Thành phần         | Nội dung                                                     |
+| ------------------ | ------------------------------------------------------------ |
+| **Use Case ID**    | UC03                                                         |
+| **Tên Use Case**   | Xác định vị trí khách hàng                                   |
+| **Actor chính**    | Customer / System                                            |
+| **Mục tiêu**       | Xác định vị trí hiện tại của Customer để tìm tài xế gần nhất |
+| **Tiền điều kiện** | Customer cho phép hệ thống truy cập vị trí                   |
+| **Hậu điều kiện**  | Vị trí hiện tại của Customer được xác định                   |
+
+Main Flow
+Customer chọn chức năng đặt xe.
+Hệ thống yêu cầu quyền truy cập vị trí.
+Customer cấp quyền.
+Hệ thống lấy tọa độ hiện tại.
+Hệ thống xác nhận vị trí.
+Vị trí được sử dụng để tìm tài xế phù hợp.
+Exception Flow
+Nếu Customer không cấp quyền vị trí → hệ thống yêu cầu Customer nhập địa chỉ đón thủ công.
+Nếu không xác định được vị trí → hệ thống thông báo lỗi và yêu cầu thử lại.
+
+12.4. UC04 – Tìm tài xế phù hợp
+Thành phần	Nội dung
+Use Case ID	UC04
+Tên Use Case	Tìm tài xế phù hợp
+Actor chính	System
+Mục tiêu	Tìm tài xế phù hợp nhất với yêu cầu của Customer
+Tiền điều kiện	Đã xác định vị trí Customer
+Hậu điều kiện	Danh sách tài xế phù hợp được xác định
+Main Flow
+Hệ thống nhận vị trí Customer.
+Hệ thống tìm các tài xế đang Online.
+Hệ thống lọc tài xế theo loại xe.
+Hệ thống xác định khoảng cách giữa Customer và Driver.
+Hệ thống ưu tiên tài xế gần Customer.
+Hệ thống ưu tiên tài xế có đánh giá cao.
+Hệ thống sắp xếp danh sách tài xế theo mức độ phù hợp.
+Hệ thống chọn tài xế có mức ưu tiên cao nhất.
+12.5. UC05 – Chọn loại xe
+Thành phần	Nội dung
+Use Case ID	UC05
+Tên Use Case	Chọn loại xe
+Actor chính	Customer
+Mục tiêu	Cho phép Customer lựa chọn loại xe mong muốn
+Tiền điều kiện	Customer đang thực hiện đặt chuyến
+Hậu điều kiện	Loại xe được lựa chọn và lưu vào yêu cầu chuyến
+Main Flow
+Customer mở chức năng đặt xe.
+Hệ thống hiển thị các loại xe.
+Customer chọn loại xe.
+Hệ thống kiểm tra tài xế có loại xe tương ứng.
+Hệ thống sử dụng loại xe làm điều kiện tìm tài xế.
+12.6. UC06 – Gửi yêu cầu chuyến xe
+Thành phần	Nội dung
+Use Case ID	UC06
+Tên Use Case	Gửi yêu cầu chuyến xe
+Actor chính	System
+Mục tiêu	Gửi yêu cầu chuyến đến tài xế phù hợp
+Tiền điều kiện	Đã xác định được Customer, vị trí và loại xe
+Hậu điều kiện	Yêu cầu được gửi đến Driver
+Main Flow
+Hệ thống xác định Driver ưu tiên cao nhất.
+Tạo yêu cầu chuyến xe.
+Gửi yêu cầu đến Driver.
+Bắt đầu bộ đếm thời gian phản hồi.
+Chờ Driver phản hồi.
+Nếu Driver chấp nhận → xác nhận chuyến.
+Nếu hết thời gian → chuyển sang Driver tiếp theo.
+12.7. UC07 – Nhận yêu cầu chuyến xe
+Thành phần	Nội dung
+Use Case ID	UC07
+Tên Use Case	Nhận yêu cầu chuyến xe
+Actor chính	Driver
+Mục tiêu	Cho phép Driver nhận thông tin yêu cầu chuyến
+Tiền điều kiện	Driver đang Online và sẵn sàng nhận chuyến
+Hậu điều kiện	Driver nhận được yêu cầu chuyến
+Main Flow
+Hệ thống xác định Driver phù hợp.
+Hệ thống gửi thông báo.
+Driver xem thông tin chuyến.
+Driver lựa chọn Chấp nhận hoặc không phản hồi.
+Nếu chấp nhận → chuyển sang UC08.
+Nếu không phản hồi → chuyển sang UC09.
+12.8. UC08 – Chấp nhận chuyến xe
+Thành phần	Nội dung
+Use Case ID	UC08
+Tên Use Case	Chấp nhận chuyến xe
+Actor chính	Driver
+Mục tiêu	Xác nhận Driver đồng ý thực hiện chuyến
+Tiền điều kiện	Driver nhận được yêu cầu chuyến
+Hậu điều kiện	Chuyến xe được xác nhận
+Main Flow
+Driver xem thông tin chuyến.
+Driver chọn Chấp nhận chuyến.
+Hệ thống kiểm tra trạng thái yêu cầu.
+Hệ thống xác nhận Driver.
+Hệ thống cập nhật trạng thái chuyến thành Đã nhận.
+Hệ thống thông báo cho Customer.
+Alternative Flow
+
+Nếu yêu cầu đã hết thời gian hoặc đã được Driver khác nhận:
+
+Hệ thống từ chối thao tác.
+Hệ thống thông báo chuyến không còn khả dụng.
+Driver quay lại trạng thái Online.
+12.9. UC09 – Tự động chọn tài xế tiếp theo
+Thành phần	Nội dung
+Use Case ID	UC09
+Tên Use Case	Tự động chọn tài xế tiếp theo
+Actor chính	System
+Mục tiêu	Đảm bảo yêu cầu được chuyển đến tài xế khác khi Driver hiện tại không phản hồi
+Tiền điều kiện	Driver hiện tại không phản hồi trong thời gian quy định
+Hậu điều kiện	Yêu cầu được gửi cho Driver tiếp theo hoặc thông báo không có tài xế
+Main Flow
+Hệ thống bắt đầu bộ đếm thời gian.
+Thời gian phản hồi của Driver hết hạn.
+Hệ thống đánh dấu yêu cầu đối với Driver hiện tại là Expired.
+Hệ thống loại Driver này khỏi danh sách hiện tại.
+Hệ thống tìm Driver phù hợp tiếp theo.
+Hệ thống gửi yêu cầu đến Driver mới.
+Hệ thống tiếp tục chờ phản hồi.
+Alternative Flow
+
+Nếu không còn Driver phù hợp:
+
+Hệ thống kết thúc quá trình tìm Driver.
+Hệ thống thông báo Customer rằng hiện tại không có tài xế phù hợp.
+Customer có thể thực hiện đặt lại chuyến.
+12.10. UC10 – Theo dõi chuyến xe
+Thành phần	Nội dung
+Use Case ID	UC10
+Tên Use Case	Theo dõi chuyến xe
+Actor chính	Customer
+Mục tiêu	Cho phép Customer theo dõi trạng thái và vị trí Driver
+Tiền điều kiện	Chuyến xe đã được Driver chấp nhận
+Hậu điều kiện	Customer nhận được thông tin cập nhật về chuyến
+Main Flow
+Hệ thống xác nhận chuyến đã được nhận.
+Hiển thị thông tin Driver.
+Hiển thị vị trí Driver.
+Hiển thị trạng thái chuyến.
+Cập nhật vị trí theo thời gian thực.
+Khi chuyến hoàn thành, chuyển sang UC13.
+12.11. UC11 – Cập nhật trạng thái chuyến
+Thành phần	Nội dung
+Use Case ID	UC11
+Tên Use Case	Cập nhật trạng thái chuyến
+Actor chính	Driver
+Mục tiêu	Cập nhật tiến trình thực hiện chuyến
+Tiền điều kiện	Driver đã nhận chuyến
+Hậu điều kiện	Trạng thái chuyến được cập nhật
+Các trạng thái chính
+
+```mermaid
+stateDiagram-v2
+    [*] --> Requested: Tạo yêu cầu
+
+    Requested --> Searching: Tìm tài xế
+    Searching --> DriverAssigned: Tài xế chấp nhận
+
+    DriverAssigned --> DriverArriving: Tài xế đang đến
+    DriverArriving --> InProgress: Bắt đầu chuyến
+    InProgress --> Completed: Hoàn thành chuyến
+
+    Searching --> Searching: Hết thời gian → chọn tài xế tiếp theo
+
+    Searching --> Cancelled: Không tìm được tài xế
+    DriverAssigned --> Cancelled: Hủy chuyến
+
+    Completed --> [*]
+    Cancelled --> [*]
+```
+
+12.12. UC12 – Hoàn thành chuyến xe
+Thành phần	Nội dung
+Use Case ID	UC12
+Tên Use Case	Hoàn thành chuyến xe
+Actor chính	Driver
+Mục tiêu	Xác nhận chuyến xe đã hoàn thành
+Tiền điều kiện	Driver đang thực hiện chuyến
+Hậu điều kiện	Trạng thái chuyến chuyển thành Completed
+Main Flow
+Driver đưa Customer đến điểm đến.
+Driver chọn Hoàn thành chuyến.
+Hệ thống kiểm tra trạng thái chuyến.
+Hệ thống cập nhật chuyến thành Completed.
+Hệ thống tính toán và lưu thông tin chuyến.
+Hệ thống thông báo cho Customer.
+Customer được phép đánh giá Driver.
+12.13. UC13 – Đánh giá tài xế
+Thành phần	Nội dung
+Use Case ID	UC13
+Tên Use Case	Đánh giá tài xế
+Actor chính	Customer
+Mục tiêu	Cho phép Customer đánh giá chất lượng chuyến đi
+Tiền điều kiện	Chuyến xe đã hoàn thành
+Hậu điều kiện	Đánh giá được lưu vào hệ thống
+Main Flow
+Hệ thống hiển thị màn hình đánh giá.
+Customer chọn số sao.
+Customer có thể nhập nhận xét.
+Customer gửi đánh giá.
+Hệ thống kiểm tra dữ liệu.
+Hệ thống lưu đánh giá.
+Điểm đánh giá trung bình của Driver được cập nhật.
+12.14. UC14 – Quản lý tài xế
+Thành phần	Nội dung
+Use Case ID	UC14
+Tên Use Case	Quản lý tài xế
+Actor chính	Admin
+Mục tiêu	Quản lý thông tin và trạng thái hoạt động của Driver
+Tiền điều kiện	Admin đã đăng nhập
+Hậu điều kiện	Thông tin Driver được cập nhật
+Các chức năng
+Xem danh sách tài xế.
+Xem thông tin tài xế.
+Cập nhật thông tin tài xế.
+Khóa / mở khóa tài khoản.
+Theo dõi trạng thái Online/Offline.
+Theo dõi đánh giá của tài xế.
+12.15. UC15 – Quản lý khách hàng
+Thành phần	Nội dung
+Use Case ID	UC15
+Tên Use Case	Quản lý khách hàng
+Actor chính	Admin
+Mục tiêu	Quản lý thông tin và trạng thái tài khoản Customer
+Tiền điều kiện	Admin đã đăng nhập
+Hậu điều kiện	Thông tin Customer được cập nhật
+Các chức năng
+Xem danh sách Customer.
+Xem thông tin Customer.
+Cập nhật thông tin.
+Khóa / mở khóa tài khoản.
+Xem lịch sử chuyến xe.
+12.16. UC16 – Giám sát chuyến xe
+Thành phần	Nội dung
+Use Case ID	UC16
+Tên Use Case	Giám sát chuyến xe
+Actor chính	Admin
+Mục tiêu	Theo dõi tình trạng hoạt động của các chuyến xe
+Tiền điều kiện	Admin đã đăng nhập
+Hậu điều kiện	Admin nắm được trạng thái các chuyến xe
+Main Flow
+Admin truy cập chức năng giám sát.
+Hệ thống hiển thị danh sách chuyến.
+Admin xem trạng thái từng chuyến.
+Admin xem thông tin Customer và Driver.
+Hệ thống cập nhật trạng thái chuyến theo thời gian thực.
+12.17. Tổng quan đặc tả Use Case
+
+```mermaid
+flowchart TD
+
+    C["Customer"]
+    D["Driver"]
+    A["Admin"]
+
+    C --> UC01["UC01 - Customer"]
+
+    UC01 --> UC02["UC02 - Đặt chuyến xe"]
+    UC02 --> UC03["UC03 - Xác định vị trí"]
+    UC02 --> UC05["UC05 - Chọn loại xe"]
+    UC02 --> UC04["UC04 - Tìm tài xế"]
+    UC04 --> UC06["UC06 - Gửi yêu cầu"]
+
+    UC06 --> UC07["UC07 - Nhận yêu cầu"]
+    UC07 --> UC08["UC08 - Chấp nhận chuyến"]
+
+    UC07 --> Decision{"Tài xế phản hồi<br/>đúng thời hạn?"}
+
+    Decision -->|"Có"| UC08
+    Decision -->|"Không"| UC09["UC09 - Chọn tài xế tiếp theo"]
+
+    UC09 --> UC04
+
+    UC08 --> UC10["UC10 - Theo dõi chuyến"]
+    D --> UC07
+    D --> UC08
+    D --> UC11["UC11 - Cập nhật trạng thái"]
+    D --> UC12["UC12 - Hoàn thành chuyến"]
+
+    UC10 --> UC11
+    UC11 --> UC12
+    UC12 --> UC13["UC13 - Đánh giá tài xế"]
+
+    C --> UC13
+
+    A --> UC14["UC14 - Quản lý tài xế"]
+    A --> UC15["UC15 - Quản lý khách hàng"]
+    A --> UC16["UC16 - Giám sát chuyến xe"]
+```
+12.19. Business Rule liên quan trực tiếp đến Use Case
+
+Các Use Case trên được xây dựng dựa trên các Business Rule đã xác định ở bước trước. Đặc biệt, quy trình tìm tài xế phải tuân thủ các quy tắc:
+
+```mermaid
+
+flowchart TD
+
+    Start["Customer đặt xe"]
+    Start --> Location["Xác định vị trí Customer"]
+
+    Location --> Filter["Lọc tài xế"]
+
+    Filter --> Online["Driver đang Online"]
+    Online --> Distance["Kiểm tra khoảng cách"]
+    Distance --> Vehicle["Kiểm tra loại xe"]
+    Vehicle --> Rating["Ưu tiên Driver có đánh giá cao"]
+
+    Rating --> Select["Chọn Driver có độ ưu tiên cao nhất"]
+
+    Select --> Request["Gửi yêu cầu chuyến"]
+
+    Request --> Timer["Bắt đầu thời gian chờ"]
+
+    Timer --> Response{"Driver phản hồi?"}
+
+    Response -->|"Chấp nhận"| Confirm["Xác nhận chuyến"]
+    Response -->|"Không phản hồi / hết hạn"| Remove["Loại Driver khỏi yêu cầu hiện tại"]
+
+    Remove --> Next["Chọn Driver tiếp theo"]
+    Next --> Request
+
+    Confirm --> Tracking["Theo dõi chuyến"]
+    Tracking --> Complete["Hoàn thành chuyến"]
+    Complete --> RatingCustomer["Customer đánh giá Driver"]
+```
+
+Kết luận
+
+Qua Bước 11 và Bước 12, hệ thống đã được chuyển từ các Functional Requirement thành một tập hợp Use Case có cấu trúc rõ ràng:
+
+BR → FR → Use Case → Use Case Specification → Acceptance Criteria
+
+Trong đó, UC02 – Đặt chuyến xe là Use Case trung tâm, bao gồm các chức năng xác định vị trí khách hàng, tìm tài xế, lựa chọn loại xe, gửi yêu cầu và xử lý trường hợp tài xế không phản hồi.
+
+Đặc biệt, UC09 – Tự động chọn tài xế tiếp theo thể hiện Business Rule quan trọng của hệ thống: tài xế phải đang sẵn sàng nhận chuyến; nếu không phản hồi trong thời hạn quy định thì yêu cầu sẽ hết hạn và hệ thống tự động chuyển sang tài xế phù hợp tiếp theo.
+
+Nội dung trên có thể copy trực tiếp vào file README.md trên GitHub vì toàn bộ sơ đồ đều sử dụng cú pháp Mermaid Markdown.
 
 
 
