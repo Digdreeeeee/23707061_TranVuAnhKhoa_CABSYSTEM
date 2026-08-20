@@ -3204,5 +3204,230 @@ Trong đó, UC02 – Đặt chuyến xe là Use Case trung tâm, bao gồm các 
 
 Nội dung trên có thể copy trực tiếp vào file README.md trên GitHub vì toàn bộ sơ đồ đều sử dụng cú pháp Mermaid Markdown.
 
+BƯỚC 13: XÁC ĐỊNH ACCEPTANCE CRITERIA (AC)
+
+Mục tiêu: Xác định các tiêu chí chấp nhận để kiểm tra một Functional Requirement/Use Case đã được triển khai đầy đủ và đúng với yêu cầu nghiệp vụ hay chưa.
+13.1. Mô hình tổng quát
+```mermaid
+flowchart LR
+    BR["Business Requirement<br/>BR01 - Đặt chuyến"]
+    RULE["Business Rules<br/>Quy tắc lựa chọn Driver"]
+    FR["Functional Requirements<br/>FR01 → FR06"]
+    UC["Use Case<br/>UC01 - Customer đặt chuyến"]
+    AC["Acceptance Criteria<br/>AC01 → AC10"]
+    TEST["Test Cases<br/>Kiểm thử"]
+    DONE["Definition of Done<br/>Yêu cầu hoàn thành"]
+
+    BR --> RULE
+    RULE --> FR
+    FR --> UC
+    UC --> AC
+    AC --> TEST
+    TEST --> DONE
+
+```
+
+13.2. Acceptance Criteria cho BR01 – Đặt chuyến
+BR01 – Customer đặt chuyến
+
+Business Requirement:
+
+Customer có thể yêu cầu một chuyến xe bằng cách cung cấp thông tin chuyến đi. Hệ thống phải tìm và lựa chọn Driver phù hợp dựa trên vị trí, trạng thái hoạt động, loại xe và mức độ ưu tiên.
+
+```mermaid
+flowchart TD
+    START(["Customer yêu cầu đặt chuyến"])
+
+    AC01["AC01<br/>Nhập điểm đón và điểm đến"]
+    AC02["AC02<br/>Xác định vị trí Customer"]
+    AC03["AC03<br/>Tìm Driver Online / Available"]
+    AC04["AC04<br/>Lọc Driver theo loại xe"]
+    AC05["AC05<br/>Ưu tiên Driver phù hợp"]
+    AC06["AC06<br/>Gửi yêu cầu cho Driver"]
+    AC07{"AC07<br/>Driver phản hồi<br/>trong thời gian quy định?"}
+    AC08["AC08<br/>Driver chấp nhận<br/>→ Xác nhận chuyến"]
+    AC09["AC09<br/>Timeout / Từ chối<br/>→ Chọn Driver tiếp theo"]
+    AC10{"AC10<br/>Còn Driver phù hợp?"}
+    AC11["AC11<br/>Thông báo không tìm thấy Driver"]
+    END(["AC đạt<br/>Chức năng hoàn thành"])
+
+    START --> AC01
+    AC01 --> AC02
+    AC02 --> AC03
+    AC03 --> AC04
+    AC04 --> AC05
+    AC05 --> AC06
+    AC06 --> AC07
+
+    AC07 -->|Có - Chấp nhận| AC08
+    AC07 -->|Không - Timeout / Từ chối| AC09
+
+    AC09 --> AC10
+    AC10 -->|Có| AC06
+    AC10 -->|Không| AC11
+
+    AC08 --> END
+    AC11 --> END
+```
+
+13.3. Danh sách Acceptance Criteria
+
+| ID       | Acceptance Criteria                | Kết quả mong đợi                                          |
+| -------- | ---------------------------------- | --------------------------------------------------------- |
+| **AC01** | Customer nhập điểm đón và điểm đến | Hệ thống nhận dữ liệu hợp lệ                              |
+| **AC02** | Hệ thống xác định vị trí Customer  | Vị trí được xác định thành công                           |
+| **AC03** | Hệ thống tìm Driver                | Chỉ Driver `Online` và `Available` được đưa vào danh sách |
+| **AC04** | Customer chọn loại xe              | Chỉ Driver có loại xe phù hợp được lựa chọn               |
+| **AC05** | Hệ thống ưu tiên Driver            | Ưu tiên Driver gần hơn và có đánh giá cao hơn             |
+| **AC06** | Hệ thống gửi yêu cầu               | Driver được chọn nhận thông báo yêu cầu chuyến            |
+| **AC07** | Driver phản hồi                    | Driver phải chấp nhận/từ chối trong thời gian quy định    |
+| **AC08** | Driver chấp nhận                   | Chuyến chuyển sang trạng thái `Confirmed`                 |
+| **AC09** | Driver từ chối/không phản hồi      | Hệ thống tự động chuyển sang Driver tiếp theo             |
+| **AC10** | Không còn Driver phù hợp           | Hệ thống thông báo Customer không tìm thấy Driver         |
+| **AC11** | Customer hủy yêu cầu               | Chuyến chuyển sang trạng thái `Cancelled`                 |
+| **AC12** | Hoàn thành chuyến                  | Chuyến chuyển sang trạng thái `Completed`                 |
+
+
+13.4. Acceptance Criteria cho Business Rule lựa chọn Driver
+BR01-RULE01 – Quy tắc lựa chọn Driver
+
+Hệ thống chỉ lựa chọn Driver đang Online và Available. Driver được ưu tiên dựa trên loại xe, khoảng cách và đánh giá. Nếu Driver không phản hồi trong thời gian quy định, hệ thống phải tự động chuyển yêu cầu cho Driver tiếp theo.
+
+```mermaid
+flowchart TD
+    A["Danh sách Driver"]
+
+    B{"Driver<br/>Online?"}
+    C{"Driver<br/>Available?"}
+    D{"Đúng loại<br/>xe?"}
+    E["Tính mức độ<br/>ưu tiên"]
+    F["Ưu tiên Driver<br/>gần hơn"]
+    G["Ưu tiên Driver<br/>rating cao hơn"]
+    H["Gửi yêu cầu<br/>đặt chuyến"]
+    I{"Driver phản hồi<br/>trong thời gian?"}
+    J["Xác nhận chuyến"]
+    K["Loại Driver hiện tại"]
+    L{"Còn Driver<br/>phù hợp?"}
+    M["Thông báo<br/>không tìm thấy Driver"]
+
+    A --> B
+    B -->|Không| K
+    B -->|Có| C
+
+    C -->|Không| K
+    C -->|Có| D
+
+    D -->|Không| K
+    D -->|Có| E
+
+    E --> F
+    F --> G
+    G --> H
+
+    H --> I
+
+    I -->|Chấp nhận| J
+    I -->|Từ chối / Timeout| K
+
+    K --> L
+    L -->|Có| A
+    L -->|Không| M
+```
+
+13.5. Acceptance Criteria cho trạng thái chuyến
+
+```mermaid
+stateDiagram-v2
+    [*] --> Searching: Customer đặt chuyến
+
+    Searching --> DriverFound: Tìm thấy Driver
+    Searching --> NoDriver: Không tìm thấy Driver
+
+    DriverFound --> WaitingResponse: Gửi yêu cầu Driver
+
+    WaitingResponse --> Confirmed: Driver chấp nhận
+    WaitingResponse --> Searching: Driver từ chối / Timeout
+
+    Confirmed --> InProgress: Bắt đầu chuyến
+    Confirmed --> Cancelled: Customer / Driver hủy
+
+    InProgress --> Completed: Hoàn thành chuyến
+
+    NoDriver --> [*]
+    Cancelled --> [*]
+    Completed --> [*]
+```
+
+3.6. Ma trận FR – AC
+
+Ma trận này giúp chứng minh rằng mỗi Functional Requirement đều có tiêu chí nghiệm thu tương ứng.
+
+```mermaid
+flowchart LR
+    FR01["FR01<br/>Xác định vị trí Customer"]
+    FR02["FR02<br/>Tìm Driver Online"]
+    FR03["FR03<br/>Lọc theo loại xe"]
+    FR04["FR04<br/>Ưu tiên Driver"]
+    FR05["FR05<br/>Gửi yêu cầu chuyến"]
+    FR06["FR06<br/>Xử lý phản hồi Driver"]
+
+    AC01["AC01<br/>Vị trí xác định thành công"]
+    AC02["AC02<br/>Chỉ chọn Online / Available"]
+    AC03["AC03<br/>Đúng loại xe"]
+    AC04["AC04<br/>Ưu tiên khoảng cách / Rating"]
+    AC05["AC05<br/>Gửi yêu cầu thành công"]
+    AC06["AC06<br/>Driver phản hồi"]
+    AC07["AC07<br/>Timeout → Driver tiếp theo"]
+    AC08["AC08<br/>Không còn Driver → Thông báo"]
+
+    FR01 --> AC01
+    FR02 --> AC02
+    FR03 --> AC03
+    FR04 --> AC04
+    FR05 --> AC05
+    FR06 --> AC06
+    FR06 --> AC07
+    FR06 --> AC08
+```
+
+
+13.7. Definition of Done
+
+Chức năng Customer đặt chuyến được xem là hoàn thành khi đáp ứng toàn bộ Acceptance Criteria và các trường hợp chính đều có thể kiểm thử.
+
+
+```mermaid
+flowchart TD
+    START(["Bắt đầu kiểm tra"])
+
+    A["Customer nhập thông tin chuyến"]
+    B["Xác định vị trí"]
+    C["Tìm Driver phù hợp"]
+    D["Lọc Online / Available"]
+    E["Lọc loại xe"]
+    F["Ưu tiên Driver"]
+    G["Gửi yêu cầu"]
+    H["Xử lý Accept / Reject / Timeout"]
+    I["Cập nhật trạng thái chuyến"]
+    J["Kiểm tra trường hợp không có Driver"]
+    K["Kiểm thử thành công"]
+
+    DONE(["DONE<br/>Acceptance Criteria đạt"])
+
+    START --> A
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+    H --> I
+    I --> J
+    J --> K
+    K --> DONE
+```
+
+
 
 
