@@ -2636,4 +2636,165 @@ NFR không mô tả hệ thống “làm gì”, mà mô tả hệ thống phả
 
 Đối với hệ thống đặt xe, các NFR quan trọng nhất cần ưu tiên là hiệu năng tìm tài xế, độ tin cậy khi phân tài xế, bảo mật thông tin cá nhân/vị trí, tính chính xác của GPS, khả năng mở rộng và tính khả dụng của hệ thống. Các NFR này sẽ được dùng làm cơ sở để đánh giá chất lượng hệ thống sau khi triển khai.
 
+BƯỚC 11 & 12: XÁC ĐỊNH VÀ ĐẶC TẢ USE CASE
+
+Mục tiêu: Xác định các tác nhân (Actor), các chức năng chính của hệ thống và mối quan hệ giữa Actor với Use Case. Sau đó đặc tả chi tiết từng Use Case nhằm làm rõ luồng xử lý, điều kiện và kết quả mong đợi của hệ thống.
+
+11. XÁC ĐỊNH USE CASE
+11.1. Xác định các tác nhân
+
+Dựa trên các Functional Requirement và Business Rule đã xác định ở các bước trước, hệ thống đặt xe có các tác nhân chính:
+
+| Actor        | Vai trò                                                                 |
+| ------------ | ----------------------------------------------------------------------- |
+| **Customer** | Khách hàng sử dụng hệ thống để đặt xe, theo dõi và quản lý chuyến đi    |
+| **Driver**   | Tài xế nhận chuyến, thực hiện chuyến đi và cập nhật trạng thái          |
+| **Admin**    | Quản trị viên quản lý người dùng, tài xế và giám sát hoạt động hệ thống |
+
+11.2. Danh sách Use Case
+
+| Mã UC    | Use Case                      | Actor chính | Mô tả                                                                          |
+| -------- | ----------------------------- | ----------- | ------------------------------------------------------------------------------ |
+| **UC01** | Customer                      | Customer    | Quản lý và thực hiện các thao tác đặt xe                                       |
+| **UC02** | Đặt chuyến xe                 | Customer    | Khách hàng nhập điểm đón, điểm đến và yêu cầu đặt xe                           |
+| **UC03** | Xác định vị trí khách hàng    | System      | Hệ thống xác định vị trí hiện tại của khách hàng                               |
+| **UC04** | Tìm tài xế phù hợp            | System      | Hệ thống tìm các tài xế đang online và phù hợp                                 |
+| **UC05** | Chọn loại xe                  | Customer    | Khách hàng lựa chọn loại xe mong muốn                                          |
+| **UC06** | Gửi yêu cầu chuyến xe         | System      | Hệ thống gửi yêu cầu đến tài xế phù hợp                                        |
+| **UC07** | Nhận yêu cầu chuyến xe        | Driver      | Tài xế nhận thông tin yêu cầu chuyến                                           |
+| **UC08** | Chấp nhận chuyến xe           | Driver      | Tài xế chấp nhận yêu cầu chuyến                                                |
+| **UC09** | Tự động chọn tài xế tiếp theo | System      | Nếu tài xế không phản hồi đúng thời hạn, hệ thống chuyển sang tài xế tiếp theo |
+| **UC10** | Theo dõi chuyến xe            | Customer    | Khách hàng theo dõi trạng thái và vị trí tài xế                                |
+| **UC11** | Cập nhật trạng thái chuyến    | Driver      | Tài xế cập nhật trạng thái chuyến đi                                           |
+| **UC12** | Hoàn thành chuyến xe          | Driver      | Tài xế xác nhận hoàn thành chuyến                                              |
+| **UC13** | Đánh giá tài xế               | Customer    | Khách hàng đánh giá tài xế sau chuyến đi                                       |
+| **UC14** | Quản lý tài xế                | Admin       | Quản lý thông tin và trạng thái tài xế                                         |
+| **UC15** | Quản lý khách hàng            | Admin       | Quản lý thông tin khách hàng                                                   |
+| **UC16** | Giám sát chuyến xe            | Admin       | Theo dõi các chuyến xe đang hoạt động                                          |
+
+11.3. Use Case Diagram
+
+Sơ đồ dưới đây thể hiện các Actor và các Use Case chính của hệ thống.
+
+```mermaid
+flowchart LR
+
+    %% =========================
+    %% ACTORS
+    %% =========================
+    C["👤 Customer"]
+    D["🚗 Driver"]
+    A["👨‍💼 Admin"]
+
+    %% =========================
+    %% SYSTEM
+    %% =========================
+    subgraph SYSTEM["HỆ THỐNG ĐẶT XE"]
+
+        UC01(("UC01<br/>Customer"))
+        UC02(("UC02<br/>Đặt chuyến xe"))
+        UC03(("UC03<br/>Xác định vị trí<br/>khách hàng"))
+        UC04(("UC04<br/>Tìm tài xế<br/>phù hợp"))
+        UC05(("UC05<br/>Chọn loại xe"))
+        UC06(("UC06<br/>Gửi yêu cầu<br/>chuyến xe"))
+        UC07(("UC07<br/>Nhận yêu cầu<br/>chuyến xe"))
+        UC08(("UC08<br/>Chấp nhận<br/>chuyến xe"))
+        UC09(("UC09<br/>Chọn tài xế<br/>tiếp theo"))
+        UC10(("UC10<br/>Theo dõi<br/>chuyến xe"))
+        UC11(("UC11<br/>Cập nhật trạng thái<br/>chuyến"))
+        UC12(("UC12<br/>Hoàn thành<br/>chuyến xe"))
+        UC13(("UC13<br/>Đánh giá<br/>tài xế"))
+        UC14(("UC14<br/>Quản lý<br/>tài xế"))
+        UC15(("UC15<br/>Quản lý<br/>khách hàng"))
+        UC16(("UC16<br/>Giám sát<br/>chuyến xe"))
+
+    end
+
+    %% =========================
+    %% CUSTOMER RELATIONSHIPS
+    %% =========================
+    C --- UC01
+    C --- UC02
+    C --- UC05
+    C --- UC10
+    C --- UC13
+
+    %% =========================
+    %% DRIVER RELATIONSHIPS
+    %% =========================
+    D --- UC07
+    D --- UC08
+    D --- UC11
+    D --- UC12
+
+    %% =========================
+    %% ADMIN RELATIONSHIPS
+    %% =========================
+    A --- UC14
+    A --- UC15
+    A --- UC16
+
+    %% =========================
+    %% INCLUDE / EXTEND LOGIC
+    %% =========================
+    UC02 -.->|"include"| UC03
+    UC02 -.->|"include"| UC04
+    UC02 -.->|"include"| UC05
+    UC02 -.->|"include"| UC06
+
+    UC06 -.->|"include"| UC07
+    UC07 -.->|"include"| UC08
+
+    UC08 -.->|"nếu không phản hồi"| UC09
+    UC09 -.->|"chọn tiếp"| UC07
+
+    UC02 -.->|"include"| UC10
+    UC10 -.->|"kết thúc chuyến"| UC12
+    UC12 -.->|"include"| UC13
+
+    UC11 -.->|"cập nhật"| UC10
+```
+
+11.4. Mối quan hệ giữa các Use Case
+Luồng đặt xe chính
+```mermaid
+flowchart TD
+
+    A["Customer"] --> UC01["UC01 - Customer"]
+
+    UC01 --> UC02["UC02 - Đặt chuyến xe"]
+
+    UC02 --> UC03["UC03 - Xác định vị trí khách hàng"]
+
+    UC03 --> UC04["UC04 - Tìm tài xế phù hợp"]
+
+    UC04 --> UC05["UC05 - Chọn loại xe"]
+
+    UC05 --> UC06["UC06 - Gửi yêu cầu chuyến xe"]
+
+    UC06 --> UC07["UC07 - Nhận yêu cầu chuyến xe"]
+
+    UC07 --> D{"Driver phản hồi?"}
+
+    D -->|Có| UC08["UC08 - Chấp nhận chuyến xe"]
+
+    D -->|Không / quá thời hạn| UC09["UC09 - Chọn tài xế tiếp theo"]
+
+    UC09 --> UC07
+
+    UC08 --> UC10["UC10 - Theo dõi chuyến xe"]
+
+    UC10 --> UC11["UC11 - Cập nhật trạng thái chuyến"]
+
+    UC11 --> UC12["UC12 - Hoàn thành chuyến xe"]
+
+    UC12 --> UC13["UC13 - Đánh giá tài xế"]
+
+    UC13 --> E["Kết thúc"]
+
+
+```
+
+
+
 
