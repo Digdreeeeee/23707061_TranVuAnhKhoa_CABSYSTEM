@@ -2127,7 +2127,120 @@ Bên cạnh luồng chính, nhóm cũng xác định các trường hợp ngoạ
 
 Business Process ở bước này là cơ sở để nhóm tiếp tục phát triển các nội dung chi tiết hơn ở các bước sau, đặc biệt là **Business Use Case, Activity Diagram, Functional Requirement, Business Rule và Acceptance Criteria**.
 
+B7. Thiết kế Functional Requirements (FR) dựa trên Business Requirements (BR)
+BR01: Tìm kiếm và lựa chọn tài xế phù hợp
 
+Mục tiêu:
+Hệ thống hỗ trợ khách hàng tìm kiếm tài xế phù hợp dựa trên vị trí hiện tại, trạng thái hoạt động, loại xe và mức độ đánh giá của tài xế.
 
+Các Functional Requirements
+FR01 – Xác định vị trí khách hàng
+Hệ thống phải cho phép xác định vị trí hiện tại của khách hàng thông qua GPS.
+Hệ thống phải lấy được kinh độ và vĩ độ của khách hàng.
+Vị trí khách hàng được sử dụng làm điểm tham chiếu để tìm kiếm tài xế gần nhất.
+FR02 – Tìm kiếm tài xế trong khu vực 1 km
+Hệ thống phải tìm kiếm các tài xế trong phạm vi 1 km tính từ vị trí khách hàng.
+Chỉ những tài xế đang ở trạng thái Online/Sẵn sàng nhận chuyến mới được đưa vào danh sách.
+Hệ thống phải loại bỏ các tài xế đang:
+Offline.
+Đang thực hiện chuyến khác.
+Không sẵn sàng nhận chuyến.
+FR03 – Lọc tài xế theo loại xe
+Hệ thống phải cho phép khách hàng lựa chọn loại xe phù hợp với nhu cầu.
+Hệ thống chỉ hiển thị những tài xế đang sử dụng loại xe mà khách hàng đã lựa chọn.
+Ví dụ:
+Xe máy.
+Ô tô 4 chỗ.
+Ô tô 7 chỗ.
+FR04 – Ưu tiên tài xế có đánh giá cao
+Hệ thống phải lấy điểm đánh giá trung bình của từng tài xế.
+Danh sách tài xế phải được sắp xếp theo mức độ ưu tiên.
+Tài xế có điểm đánh giá cao hơn được ưu tiên hiển thị trước.
+Trường hợp các tài xế có điểm đánh giá tương đương, hệ thống có thể ưu tiên tài xế có khoảng cách gần hơn.
+FR05 – Xác định khoảng cách giữa khách hàng và tài xế
+Hệ thống phải tính toán khoảng cách giữa vị trí khách hàng và từng tài xế.
+Khoảng cách được tính dựa trên vị trí GPS hiện tại.
+Hệ thống phải ưu tiên các tài xế đáp ứng điều kiện về khoảng cách quy định.
+FR06 – Hiển thị danh sách tài xế phù hợp
+Hệ thống phải hiển thị danh sách các tài xế thỏa mãn các điều kiện tìm kiếm.
+Mỗi tài xế trong danh sách phải hiển thị tối thiểu:
+Tên tài xế.
+Hình ảnh đại diện.
+Loại xe.
+Biển số xe.
+Điểm đánh giá.
+Khoảng cách đến khách hàng.
+Trạng thái Online.
+FR07 – Lựa chọn tài xế
+Hệ thống phải cho phép khách hàng lựa chọn một tài xế từ danh sách kết quả.
+Sau khi khách hàng lựa chọn, hệ thống phải kiểm tra lại trạng thái của tài xế.
+Nếu tài xế vẫn Online và sẵn sàng nhận chuyến, hệ thống tiếp tục quá trình đặt chuyến.
+Nếu tài xế đã Offline hoặc nhận chuyến khác, hệ thống phải thông báo và yêu cầu khách hàng lựa chọn tài xế khác.
+BR01: Tìm kiếm và lựa chọn tài xế
+              │
+              ▼
+     FR01: Xác định vị trí
+       khách hàng bằng GPS
+              │
+              ▼
+   FR02: Tìm tài xế Online
+      trong phạm vi 1 km
+              │
+              ▼
+     FR03: Lọc theo loại xe
+              │
+              ▼
+   FR05: Tính khoảng cách
+              │
+              ▼
+ FR04: Ưu tiên tài xế đánh giá cao
+              │
+              ▼
+ FR06: Hiển thị danh sách tài xế
+              │
+              ▼
+      FR07: Khách hàng
+       chọn tài xế
+              │
+              ▼
+     Kiểm tra trạng thái
+         tài xế lần cuối
+              │
+       ┌──────┴──────┐
+       ▼             ▼
+    Còn Online     Offline/
+       │           Đang bận
+       ▼             │
+  Tiếp tục đặt       ▼
+     chuyến      Chọn tài xế khác
 
+Bảng liên kết BR → FR
+Business Requirement	Functional Requirements	Mô tả
+BR01 – Tìm kiếm và lựa chọn tài xế	FR01	Xác định vị trí khách hàng
+	FR02	Tìm tài xế Online trong phạm vi 1 km
+	FR03	Lọc tài xế theo loại xe
+	FR04	Ưu tiên tài xế có đánh giá cao
+	FR05	Tính khoảng cách giữa khách hàng và tài xế
+	FR06	Hiển thị danh sách tài xế phù hợp
+	FR07	Cho phép khách hàng lựa chọn tài xế
+## BƯỚC 8: THIẾT KẾ BUSINESS RULES VÀ ACCEPTANCE CRITERIA
 
+### Business Rules
+
+- **BR01:** Chỉ các tài xế Online và sẵn sàng nhận chuyến mới được lựa chọn.
+- **BR02:** Hệ thống chỉ tìm kiếm tài xế trong phạm vi 1 km từ vị trí khách hàng.
+- **BR03:** Tài xế có điểm đánh giá cao được ưu tiên trước.
+- **BR04:** Tài xế phải phản hồi yêu cầu chuyến trong thời gian quy định.
+- **BR05:** Nếu tài xế từ chối hoặc quá thời hạn phản hồi, hệ thống sẽ loại tài xế đó khỏi danh sách và chọn tài xế tiếp theo.
+- **BR06:** Khi tài xế nhận chuyến thành công, trạng thái tài xế chuyển sang Đang bận.
+- **BR07:** Nếu không còn tài xế phù hợp, hệ thống thông báo cho khách hàng.
+
+### Acceptance Criteria
+
+- **AC01:** Khi khách hàng tìm tài xế, hệ thống hiển thị các tài xế Online và sẵn sàng trong phạm vi 1 km.
+- **AC02:** Tài xế Offline hoặc đang bận không được hiển thị.
+- **AC03:** Tài xế có đánh giá cao hơn được ưu tiên.
+- **AC04:** Nếu tài xế không phản hồi trong thời hạn, hệ thống xóa tài xế khỏi danh sách và chọn tài xế tiếp theo.
+- **AC05:** Nếu tài xế từ chối chuyến, hệ thống chuyển yêu cầu cho tài xế tiếp theo.
+- **AC06:** Nếu tài xế nhận chuyến, hệ thống xác nhận chuyến và cập nhật trạng thái tài xế thành Đang bận.
+- **AC07:** Nếu không còn tài xế phù hợp, hệ thống thông báo cho khách hàng.
