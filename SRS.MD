@@ -841,6 +841,187 @@ Trong phạm vi dự án, nhóm ưu tiên triển khai các chức năng cần t
 
 Việc phân chia thành các module M01–M08 và bảng MBB giúp nhóm có cơ sở để tiếp tục thực hiện các bước phân tích chi tiết hơn như **Use Case, yêu cầu chức năng, Business Rule, Acceptance Criteria và phân chia công việc phát triển**.
 
+BƯỚC 5: XÁC ĐỊNH BUSINESS REQUIREMENTS
+1. Mục tiêu
+
+Sau khi hoàn thành các bước:
+
+Đọc và phân tích yêu cầu sơ khởi.
+Xác định và phân tích Stakeholders.
+Xác định Business Goals.
+Xác định phạm vi và các module của hệ thống.
+
+Nhóm tiến hành chuyển các yêu cầu đã xác định thành Business Requirements (BR).
+
+Business Requirement mô tả những điều doanh nghiệp cần hệ thống đáp ứng để đạt được các mục tiêu kinh doanh, tập trung vào nhu cầu nghiệp vụ thay vì cách triển khai kỹ thuật.
+
+Quy trình tổng quát:
+
+Tài liệu CAB System xác định quy trình chính của hệ thống từ tạo yêu cầu đặt xe → tìm và phân công tài xế → thực hiện chuyến → tính cước → thanh toán → thông báo → đánh giá sau chuyến.
+
+2. Phân biệt Business Goal và Business Requirement
+
+Để tránh nhầm lẫn giữa BG và BR, nhóm sử dụng quy ước:
+
+Loại	Ký hiệu	Ý nghĩa
+Business Goal	BG01, BG02,...	Mục tiêu mà doanh nghiệp muốn đạt được
+Business Requirement	BR01, BR02,...	Những yêu cầu nghiệp vụ mà hệ thống cần đáp ứng để hỗ trợ đạt Business Goal
+
+Có thể hiểu đơn giản:
+
+Ví dụ
+BG01
+Giảm thời gian tìm và phân công tài xế
+        ↓
+BR04
+Hệ thống phải hỗ trợ tìm và phân công tài xế phù hợp
+        ↓
+Functional Requirement
+Hệ thống xác định tài xế dựa trên vị trí,
+trạng thái sẵn sàng và tiêu chí vận hành
+
+Như vậy:
+
+BG01 không phải là một chức năng. BG01 là mục tiêu kinh doanh.
+
+BR04 là yêu cầu nghiệp vụ được xây dựng để hỗ trợ BG01.
+
+3. Danh sách Business Goals
+
+Các Business Goal được xác định ở bước trước:
+
+Mã	Business Goal
+BG01	Giảm thời gian tìm và phân công tài xế
+BG02	Nâng cao khả năng theo dõi và quản lý chuyến đi
+BG03	Cung cấp phương thức thanh toán thuận tiện và linh hoạt
+BG04	Nâng cao hiệu quả quản lý và vận hành
+BG05	Xây dựng nền tảng CAB có khả năng mở rộng và phát triển lâu dài
+4. Danh sách Business Requirements
+Mã / STT	Tên Business Requirement	Diễn giải
+BR01	Quản lý tài khoản khách hàng	Hệ thống phải cho phép khách hàng đăng ký tài khoản, đăng nhập và cập nhật thông tin cá nhân trước khi sử dụng các chức năng yêu cầu tài khoản.
+BR02	Quản lý tài khoản và hồ sơ tài xế	Hệ thống phải cho phép tài xế đăng ký hoặc được nhân viên vận hành tạo tài khoản, cập nhật hồ sơ, thông tin phương tiện và trạng thái hoạt động.
+BR03	Tạo yêu cầu đặt xe	Hệ thống phải cho phép khách hàng nhập điểm đón, điểm đến, lựa chọn loại xe và gửi yêu cầu đặt xe.
+BR04	Tìm kiếm và phân công tài xế	Hệ thống phải hỗ trợ xác định tài xế phù hợp dựa trên vị trí, trạng thái sẵn sàng và các tiêu chí vận hành; đồng thời ưu tiên tài xế phù hợp và gần khách hàng.
+BR05	Xử lý tài xế từ chối hoặc không phản hồi	Khi tài xế được đề xuất không phản hồi hoặc từ chối chuyến, hệ thống phải tiếp tục tìm tài xế khác mà không yêu cầu khách hàng tạo lại yêu cầu. Nếu không tìm được tài xế, hệ thống phải thông báo rõ ràng cho khách hàng.
+BR06	Theo dõi chuyến đi	Hệ thống phải cho phép khách hàng theo dõi trạng thái chuyến, tài xế đã nhận chuyến và thời gian dự kiến tài xế đến.
+BR07	Quản lý vị trí tài xế	Hệ thống phải lưu và sử dụng thông tin vị trí của tài xế để hỗ trợ tìm tài xế gần khách hàng và cải thiện khả năng dự kiến thời gian đến.
+BR08	Cập nhật trạng thái chuyến	Hệ thống phải cho phép tài xế cập nhật trạng thái của chuyến trong quá trình thực hiện cho đến khi chuyến hoàn thành.
+BR09	Tính cước chuyến đi	Sau khi chuyến hoàn thành, hệ thống phải xác định số tiền khách hàng phải trả dựa trên loại dịch vụ và thông tin chuyến đi.
+BR10	Hỗ trợ thanh toán đa phương thức	Hệ thống phải hỗ trợ khách hàng thanh toán bằng tiền mặt hoặc phương thức thanh toán điện tử.
+BR11	Tích hợp nhà cung cấp thanh toán	Hệ thống phải tích hợp với nhà cung cấp dịch vụ thanh toán bên ngoài và không lưu trực tiếp thông tin nhạy cảm của thẻ hoặc tài khoản thanh toán trong CAB System.
+BR12	Xử lý thanh toán thất bại	Khi giao dịch thanh toán điện tử thất bại, hệ thống phải thông báo cho khách hàng và cho phép xử lý lại theo chính sách của doanh nghiệp.
+BR13	Quản lý thông báo	Hệ thống phải gửi thông báo cho khách hàng và tài xế về các sự kiện quan trọng như tiếp nhận yêu cầu, nhận chuyến, tài xế đến điểm đón, hoàn thành chuyến và kết quả thanh toán.
+BR14	Quản trị khách hàng, tài xế, phương tiện và chuyến đi	Hệ thống phải cung cấp giao diện quản trị để nhân viên vận hành quản lý các đối tượng và hoạt động chính của hệ thống.
+BR15	Giám sát và xử lý chuyến đi	Nhân viên vận hành phải có khả năng xem các chuyến đang diễn ra, kiểm tra trạng thái tài xế và hỗ trợ xử lý các trường hợp chuyến bị lỗi.
+BR16	Quản lý và tra cứu giao dịch	Hệ thống phải cho phép nhân viên vận hành tra cứu lịch sử giao dịch phục vụ công tác quản lý và xử lý sự cố.
+BR17	Phân quyền quản trị	Hệ thống phải kiểm soát quyền truy cập đối với các chức năng quản trị để nhân viên thông thường không thể thực hiện các thao tác nhạy cảm.
+BR18	Báo cáo quản trị	Hệ thống phải cung cấp báo cáo về số lượng chuyến, doanh thu, tỷ lệ chuyến hoàn thành, tỷ lệ hủy và hiệu quả hoạt động của tài xế.
+BR19	Đảm bảo tính ổn định	Hệ thống phải hoạt động ổn định trong thời điểm nhu cầu tăng cao và lỗi tại một thành phần như thanh toán hoặc thông báo không được làm toàn bộ hệ thống đặt xe ngừng hoạt động.
+BR20	Đảm bảo khả năng mở rộng	Hệ thống phải có khả năng mở rộng các thành phần độc lập khi tải tăng và phục vụ số lượng lớn khách hàng và tài xế.
+BR21	Hỗ trợ triển khai từng phần	Các chức năng mới phải có khả năng được triển khai từng phần và hạn chế ảnh hưởng đến các chức năng đang hoạt động.
+BR22	Bảo mật và bảo vệ dữ liệu	Hệ thống phải xác thực khách hàng và tài xế trước khi sử dụng chức năng yêu cầu tài khoản, kiểm soát quyền quản trị và bảo vệ thông tin cá nhân, phương tiện, vị trí và giao dịch.
+BR23	Lưu vết hoạt động quan trọng	Hệ thống phải lưu vết các thao tác quan trọng để phục vụ kiểm tra và truy xuất khi xảy ra sự cố.
+BR24	Khả năng mở rộng chức năng trong tương lai	Kiến trúc hệ thống phải đủ linh hoạt để có thể bổ sung loại dịch vụ, phương thức thanh toán, nhà cung cấp thông báo hoặc thay đổi một số thành phần kỹ thuật mà không phải xây dựng lại toàn bộ ứng dụng.
+
+Các yêu cầu trên được chuyển đổi từ yêu cầu về khách hàng, tài xế, đặt xe, tìm tài xế, thanh toán, thông báo, quản trị, báo cáo, bảo mật và khả năng mở rộng trong tài liệu.
+
+5. Sơ đồ phân rã Business Goal → Business Requirement
+
+Sơ đồ dưới đây giúp thể hiện rõ mỗi Business Goal được cụ thể hóa thành những Business Requirement nào.
+
+6. Sơ đồ Business Requirement theo quy trình nghiệp vụ
+
+Ngoài việc phân loại theo Business Goal, các Business Requirement còn liên kết với quy trình hoạt động chính của CAB System:
+
+Sơ đồ trên thể hiện rõ các yêu cầu nghiệp vụ chính trong quy trình đặt xe, đặc biệt là tìm tài xế, xử lý tài xế từ chối, theo dõi chuyến và thanh toán. Những nội dung này được nêu trực tiếp trong tài liệu khách hàng.
+
+7. Ma trận liên kết Business Goal – Business Requirement
+Business Goal	Business Requirements
+BG01 – Giảm thời gian tìm và phân công tài xế	BR04, BR05, BR07
+BG02 – Nâng cao khả năng theo dõi và quản lý chuyến đi	BR06, BR07, BR08, BR13, BR15
+BG03 – Cung cấp phương thức thanh toán thuận tiện và linh hoạt	BR09, BR10, BR11, BR12
+BG04 – Nâng cao hiệu quả quản lý và vận hành	BR14, BR15, BR16, BR17, BR18, BR23
+BG05 – Xây dựng nền tảng có khả năng mở rộng và phát triển lâu dài	BR19, BR20, BR21, BR24
+8. Sơ đồ Traceability giữa Goal và Requirement
+
+Có thể biểu diễn mối quan hệ tổng quát như sau:
+
+Mục đích của sơ đồ này là thể hiện tính truy xuất nguồn gốc (Traceability): mọi yêu cầu phát triển sau này đều có thể truy ngược về một mục tiêu kinh doanh hoặc một nhu cầu đã được xác định.
+
+9. Các yêu cầu cần làm rõ
+
+Không phải tất cả nội dung trong tài liệu đều đã đủ thông tin để trở thành yêu cầu chi tiết. Một số vấn đề khách hàng chưa chốt và cần Business Analyst tiếp tục làm rõ:
+
+STT	Nội dung cần làm rõ	Trạng thái
+1	Công thức tính cước cụ thể	Chưa xác định
+2	Tiêu chí ưu tiên tài xế	Chưa xác định
+3	Thời gian tài xế phải phản hồi	Chưa xác định
+4	Chính sách hủy chuyến	Chưa xác định
+5	Cách xử lý khi mất kết nối mạng	Chưa xác định
+6	Thời gian lưu trữ dữ liệu	Chưa xác định
+
+Tài liệu xác nhận các nội dung này cần được Business Analyst làm rõ với các bên liên quan trước khi nhóm phát triển xây dựng giải pháp.
+
+Do đó, nhóm không tự đặt ra các quy tắc hoặc con số cụ thể cho những nội dung chưa được khách hàng xác nhận.
+
+10. Kết luận
+
+Qua Bước 5, nhóm đã chuyển các yêu cầu và mục tiêu đã xác định ở những bước trước thành 24 Business Requirements, bao phủ các nhóm nghiệp vụ chính của CAB System:
+
+Quản lý tài khoản.
+Đặt xe.
+Tìm và phân công tài xế.
+Quản lý chuyến đi.
+Tính cước và thanh toán.
+Thông báo.
+Quản trị và vận hành.
+Báo cáo.
+Bảo mật.
+Tính ổn định.
+Khả năng mở rộng.
+
+Mối quan hệ giữa các bước được thể hiện như sau:
+
+Trong đó:
+
+Business Goal: Doanh nghiệp muốn đạt được điều gì?
+
+Business Requirement: Doanh nghiệp cần hệ thống đáp ứng điều gì?
+
+Functional Requirement: Hệ thống phải thực hiện chức năng gì?
+
+Ví dụ tiêu biểu:
+
+BG01
+Giảm thời gian tìm và phân công tài xế
+        ↓
+BR04
+Hệ thống phải tìm và phân công tài xế phù hợp
+        ↓
+BR05
+Nếu tài xế từ chối/không phản hồi → tìm tài xế khác
+        ↓
+Functional Requirements
+Xây dựng cơ chế tìm kiếm, lựa chọn và phân công tài xế
+
+Đối với thanh toán:
+
+BG03
+Cung cấp phương thức thanh toán thuận tiện và linh hoạt
+        ↓
+BR09
+Tính số tiền khách hàng phải trả
+        ↓
+BR10
+Hỗ trợ tiền mặt và thanh toán điện tử
+        ↓
+BR11
+Tích hợp nhà cung cấp thanh toán bên ngoài
+        ↓
+BR12
+Xử lý trường hợp thanh toán điện tử thất bại
+
+Như vậy, Business Requirements là cầu nối giữa mục tiêu kinh doanh và các yêu cầu chức năng của hệ thống, giúp nhóm đảm bảo rằng các chức năng được phát triển đều có cơ sở từ nhu cầu thực tế của doanh nghiệp và các stakeholder.
 
 
 
