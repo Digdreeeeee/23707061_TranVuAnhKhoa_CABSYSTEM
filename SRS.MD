@@ -201,6 +201,7 @@ Power cao	Keep Satisfied – Duy trì sự hài lòng	Manage Closely – Quản 
 Power thấp	Monitor – Theo dõi	Keep Informed – Cập nhật thường xuyên
 Ma trận Stakeholders của dự án CAB System
                          STAKEHOLDER POWER–INTEREST MATRIX
+```mermaid
 quadrantChart
     title Stakeholder Power–Interest Matrix - CAB System
     x-axis "Mức độ quan tâm thấp" --> "Mức độ quan tâm cao"
