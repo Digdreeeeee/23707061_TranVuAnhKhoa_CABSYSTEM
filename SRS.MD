@@ -1159,7 +1159,974 @@ Bảo mật & kiểm soát	BR22, BR23
 Kết luận
 
 Các Business Requirement trên là bước chuyển tiếp từ Business Goal → yêu cầu nghiệp vụ cụ thể. Chúng mô tả những gì doanh nghiệp cần CAB System đáp ứng mà chưa đi sâu vào cách triển khai kỹ thuật.
-b7: thiết kế các functional requirement dựa trên các BR, vd với BR01: TÌM CÁC TÀI XẾ PHÂN RA THÀNH CÁC FR01, SAU ĐÓ XÁC ĐỊNH VỊ TRÍ CỦA KHÁCH HÀNG, FR02: TRONG KHU VỰC 1KM CHỌN CÁC TÀI XẾ ONLINE, FR03: CHỌN LOẠI XE
+# BƯỚC 6: XÂY DỰNG CÁC BUSINESS PROCESS
+
+## 1. Mục đích
+
+Sau khi đã xác định **Stakeholders, Business Goals, phạm vi hệ thống và Business Requirements**, nhóm tiến hành xây dựng các **Business Process** của CAB System.
+
+Business Process mô tả **trình tự các hoạt động nghiệp vụ từ khi một yêu cầu được phát sinh cho đến khi đạt được kết quả mong muốn**, bao gồm các tác nhân tham gia, điều kiện, các bước xử lý và các trường hợp ngoại lệ.
+
+Việc xây dựng Business Process giúp nhóm:
+
+* Hiểu rõ cách hệ thống hỗ trợ hoạt động nghiệp vụ thực tế.
+* Xác định sự tương tác giữa **Khách hàng – Hệ thống – Tài xế – Nhân viên vận hành – Nhà cung cấp thanh toán**.
+* Xác định các điểm quyết định và trường hợp ngoại lệ.
+* Làm cơ sở để xây dựng **Use Case, Activity Diagram, Functional Requirement và Acceptance Criteria** ở các bước tiếp theo.
+* Hạn chế việc bỏ sót các bước xử lý trong quy trình nghiệp vụ.
+
+Dựa trên tài liệu yêu cầu của Công ty ABC, nhóm xác định các Business Process chính của CAB System gồm:
+
+1. **BP01 – Đăng ký và quản lý tài khoản**
+2. **BP02 – Tạo yêu cầu và đặt chuyến xe**
+3. **BP03 – Tìm kiếm và phân công tài xế**
+4. **BP04 – Thực hiện và quản lý chuyến đi**
+5. **BP05 – Tính cước và thanh toán**
+6. **BP06 – Gửi và xử lý thông báo**
+7. **BP07 – Quản trị và giám sát vận hành**
+8. **BP08 – Báo cáo hoạt động**
+
+---
+
+# 2. Tổng quan Business Process của CAB System
+
+Quy trình nghiệp vụ tổng thể của CAB System có thể được mô tả như sau:
+
+```text
+                    KHÁCH HÀNG
+                        │
+                        ▼
+              [Đăng nhập / Xác thực]
+                        │
+                        ▼
+                [Tạo yêu cầu đặt xe]
+                        │
+                        ▼
+              [Xác nhận điểm đón]
+                        │
+                        ▼
+              [Xác nhận điểm đến]
+                        │
+                        ▼
+                [Chọn loại xe]
+                        │
+                        ▼
+                [Gửi yêu cầu]
+                        │
+                        ▼
+              [Hệ thống tìm tài xế]
+                        │
+                 ┌──────┴──────┐
+                 │             │
+             Không có       Có tài xế
+             tài xế            │
+                 │              ▼
+                 ▼       [Gửi yêu cầu cho
+        [Thông báo cho    tài xế phù hợp]
+          khách hàng]            │
+                                ▼
+                       [Tài xế phản hồi]
+                                │
+                         ┌──────┴──────┐
+                         │             │
+                      Từ chối/      Chấp nhận
+                   không phản hồi      │
+                         │             │
+                         ▼             ▼
+                  [Tìm tài xế      [Xác nhận
+                     khác]          chuyến]
+                         │             │
+                         └──────┬──────┘
+                                ▼
+                        [Thực hiện chuyến]
+                                │
+                                ▼
+                        [Tài xế cập nhật
+                         trạng thái]
+                                │
+                                ▼
+                         [Hoàn thành chuyến]
+                                │
+                                ▼
+                           [Tính cước]
+                                │
+                         ┌──────┴──────┐
+                         │             │
+                      Tiền mặt     Điện tử
+                         │             │
+                         │        [Thanh toán]
+                         │             │
+                         │       ┌─────┴─────┐
+                         │       │           │
+                         │     Thành công   Thất bại
+                         │       │           │
+                         │       │           ▼
+                         │       │     [Thông báo &
+                         │       │      xử lý lại]
+                         │       │
+                         └───────┴──────┐
+                                        ▼
+                               [Hoàn tất chuyến]
+                                        │
+                                        ▼
+                              [Đánh giá tài xế]
+```
+
+---
+
+# 3. BP01 – Business Process: Đăng ký và quản lý tài khoản
+
+## 3.1. Mục tiêu
+
+Cho phép khách hàng và tài xế có tài khoản hợp lệ để sử dụng các chức năng yêu cầu xác thực.
+
+## 3.2. Tác nhân
+
+* Khách hàng
+* Tài xế
+* Nhân viên vận hành
+* Hệ thống CAB
+
+## 3.3. Quy trình
+
+```text
+        Người dùng
+            │
+            ▼
+     [Yêu cầu đăng ký]
+            │
+            ▼
+    [Nhập thông tin tài khoản]
+            │
+            ▼
+      [Hệ thống kiểm tra]
+            │
+       ┌────┴────┐
+       │         │
+    Không hợp lệ Hợp lệ
+       │         │
+       ▼         ▼
+ [Thông báo lỗi] [Tạo tài khoản]
+                     │
+                     ▼
+               [Xác thực tài khoản]
+                     │
+                     ▼
+               [Đăng nhập hệ thống]
+                     │
+                     ▼
+               [Sử dụng dịch vụ]
+```
+
+Đối với tài xế, ngoài thông tin tài khoản còn cần quản lý:
+
+* Hồ sơ tài xế.
+* Thông tin phương tiện.
+* Trạng thái hoạt động.
+* Trạng thái sẵn sàng nhận chuyến.
+
+Nhân viên vận hành có thể thực hiện việc tạo tài khoản tài xế theo yêu cầu của doanh nghiệp.
+
+## 3.4. Kết quả
+
+Người dùng có tài khoản hợp lệ và có thể sử dụng các chức năng tương ứng với quyền được cấp.
+
+---
+
+# 4. BP02 – Business Process: Tạo yêu cầu và đặt chuyến xe
+
+Đây là **một trong những Business Process quan trọng nhất** của CAB System.
+
+## 4.1. Mục tiêu
+
+Cho phép khách hàng tạo một yêu cầu đặt xe với đầy đủ thông tin cần thiết trước khi hệ thống bắt đầu tìm kiếm tài xế.
+
+## 4.2. Tác nhân
+
+* Khách hàng
+* Hệ thống CAB
+
+## 4.3. Luồng nghiệp vụ chính
+
+### Bước 1 – Khách hàng đăng nhập
+
+Khách hàng đăng nhập vào hệ thống.
+
+Hệ thống xác thực tài khoản trước khi cho phép sử dụng chức năng đặt xe.
+
+### Bước 2 – Tạo chuyến đi
+
+Khách hàng chọn chức năng **Đặt xe/Tạo chuyến**.
+
+### Bước 3 – Nhập điểm đón
+
+Khách hàng nhập hoặc xác định **điểm đón**.
+
+### Bước 4 – Nhập điểm đến
+
+Khách hàng nhập hoặc xác định **điểm đến**.
+
+### Bước 5 – Chọn loại xe
+
+Khách hàng lựa chọn loại xe phù hợp với nhu cầu.
+
+### Bước 6 – Xác nhận thông tin
+
+Hệ thống hiển thị lại các thông tin:
+
+* Điểm đón.
+* Điểm đến.
+* Loại xe.
+* Thông tin chuyến đi.
+
+Khách hàng kiểm tra và xác nhận.
+
+### Bước 7 – Gửi yêu cầu
+
+Sau khi xác nhận, khách hàng gửi yêu cầu đặt xe.
+
+Hệ thống ghi nhận yêu cầu và chuyển sang quy trình **tìm kiếm và phân công tài xế**.
+
+## 4.4. Sơ đồ Business Process
+
+```text
+             KHÁCH HÀNG
+                  │
+                  ▼
+          [Đăng nhập hệ thống]
+                  │
+                  ▼
+           [Tạo chuyến đi]
+                  │
+                  ▼
+          [Nhập điểm đón]
+                  │
+                  ▼
+          [Nhập điểm đến]
+                  │
+                  ▼
+           [Chọn loại xe]
+                  │
+                  ▼
+        [Xác nhận thông tin]
+                  │
+             ┌────┴────┐
+             │         │
+          Không đúng   Đúng
+             │         │
+             ▼         ▼
+        [Chỉnh sửa] [Gửi yêu cầu]
+                         │
+                         ▼
+                 [Tìm tài xế]
+```
+
+---
+
+# 5. BP03 – Business Process: Tìm kiếm và phân công tài xế
+
+Đây là **Business Process cốt lõi của CAB System**, vì tài liệu khách hàng xác định việc tìm và phân công tài xế là một yêu cầu quan trọng.
+
+## 5.1. Mục tiêu
+
+Tự động tìm tài xế phù hợp với yêu cầu của khách hàng dựa trên:
+
+* Vị trí tài xế.
+* Trạng thái sẵn sàng.
+* Loại xe.
+* Các tiêu chí vận hành khác.
+* Mức độ phù hợp và khoảng cách đến khách hàng.
+
+## 5.2. Tác nhân
+
+* Hệ thống CAB
+* Tài xế
+* Khách hàng
+
+## 5.3. Luồng nghiệp vụ chính
+
+Sau khi khách hàng gửi yêu cầu:
+
+### Bước 1 – Tiếp nhận yêu cầu
+
+Hệ thống tiếp nhận yêu cầu đặt xe và thông báo rằng yêu cầu đã được ghi nhận.
+
+### Bước 2 – Xác định tài xế phù hợp
+
+Hệ thống tìm các tài xế:
+
+* Đang hoạt động.
+* Đang ở trạng thái sẵn sàng.
+* Có loại xe phù hợp.
+* Có vị trí phù hợp.
+* Đáp ứng các tiêu chí vận hành được doanh nghiệp xác định.
+
+### Bước 3 – Ưu tiên tài xế
+
+Hệ thống ưu tiên tài xế phù hợp và gần khách hàng.
+
+> Lưu ý: Tài liệu chưa xác định công thức hoặc trọng số cụ thể để xếp hạng tài xế. Vì vậy, nhóm **không tự đưa ra khoảng cách hoặc thời gian cụ thể** ở giai đoạn này.
+
+### Bước 4 – Gửi yêu cầu cho tài xế
+
+Hệ thống gửi thông báo yêu cầu chuyến đến tài xế được lựa chọn.
+
+### Bước 5 – Tài xế phản hồi
+
+Tài xế có thể:
+
+* Chấp nhận chuyến.
+* Từ chối chuyến.
+* Không phản hồi.
+
+### Bước 6 – Nếu tài xế chấp nhận
+
+Nếu tài xế chấp nhận:
+
+```text
+Tài xế chấp nhận
+       ↓
+Hệ thống xác nhận tài xế
+       ↓
+Thông báo cho khách hàng
+       ↓
+Hiển thị thông tin tài xế
+       ↓
+Hiển thị thời gian dự kiến đến
+       ↓
+Bắt đầu thực hiện chuyến
+```
+
+### Bước 7 – Nếu tài xế từ chối hoặc không phản hồi
+
+Hệ thống **không yêu cầu khách hàng tạo lại chuyến**.
+
+Thay vào đó:
+
+```text
+Tài xế từ chối /
+không phản hồi
+       ↓
+Hệ thống loại tài xế
+khỏi lần tìm hiện tại
+       ↓
+Tìm tài xế phù hợp tiếp theo
+       ↓
+Gửi yêu cầu cho tài xế mới
+```
+
+Quá trình tiếp tục cho đến khi:
+
+* Có tài xế chấp nhận; hoặc
+* Không còn tài xế phù hợp.
+
+### Bước 8 – Không tìm được tài xế
+
+Nếu không tìm được tài xế:
+
+```text
+Không còn tài xế phù hợp
+          ↓
+Hệ thống cập nhật trạng thái
+          ↓
+Thông báo cho khách hàng
+          ↓
+Kết thúc yêu cầu
+```
+
+Khách hàng phải nhận được thông báo rõ ràng rằng hệ thống chưa tìm được tài xế.
+
+---
+
+# 6. Sơ đồ Business Process – Tìm và phân công tài xế
+
+```text
+                    [Yêu cầu đặt xe]
+                           │
+                           ▼
+                 [Hệ thống tìm tài xế]
+                           │
+                           ▼
+                 [Kiểm tra tài xế phù hợp]
+                           │
+                    ┌──────┴──────┐
+                    │             │
+               Không tìm thấy   Tìm thấy
+                    │             │
+                    ▼             ▼
+             [Thông báo KH] [Chọn tài xế
+                    │         phù hợp]
+                    │             │
+                    │             ▼
+                    │      [Gửi yêu cầu]
+                    │             │
+                    │             ▼
+                    │       [Tài xế phản hồi]
+                    │             │
+                    │       ┌─────┴─────┐
+                    │       │           │
+                    │    Từ chối/    Chấp nhận
+                    │   Không phản hồi   │
+                    │       │           │
+                    │       ▼           ▼
+                    │ [Tìm tài xế    [Xác nhận
+                    │     khác]       tài xế]
+                    │       │           │
+                    │       └─────┐     │
+                    │             │     │
+                    │             ▼     ▼
+                    │       [Tiếp tục tìm]
+                    │
+                    └──────────────┐
+                                   ▼
+                              [Kết thúc]
+```
+
+## 6.1. Business Rule liên quan
+
+* **BR04:** Hệ thống phải tìm tài xế phù hợp.
+* **BR05:** Nếu tài xế từ chối hoặc không phản hồi, hệ thống tiếp tục tìm tài xế khác.
+* Khách hàng không phải tạo lại yêu cầu.
+* Nếu không tìm được tài xế, hệ thống phải thông báo rõ ràng.
+
+---
+
+# 7. BP04 – Business Process: Thực hiện và quản lý chuyến đi
+
+## 7.1. Mục tiêu
+
+Quản lý toàn bộ quá trình từ khi tài xế nhận chuyến cho đến khi chuyến hoàn thành.
+
+## 7.2. Tác nhân
+
+* Tài xế
+* Khách hàng
+* Hệ thống CAB
+* Nhân viên vận hành
+
+## 7.3. Luồng nghiệp vụ
+
+Sau khi tài xế chấp nhận chuyến:
+
+```text
+[Tài xế nhận chuyến]
+        │
+        ▼
+[Hệ thống xác nhận chuyến]
+        │
+        ▼
+[Thông báo cho khách hàng]
+        │
+        ▼
+[Tài xế di chuyển đến điểm đón]
+        │
+        ▼
+[Tài xế cập nhật "Đã đến"]
+        │
+        ▼
+[Đón khách]
+        │
+        ▼
+[Tài xế cập nhật "Đã đón khách"]
+        │
+        ▼
+[Bắt đầu di chuyển]
+        │
+        ▼
+[Tài xế cập nhật "Đang di chuyển"]
+        │
+        ▼
+[Đến điểm đến]
+        │
+        ▼
+[Tài xế cập nhật "Hoàn thành"]
+        │
+        ▼
+[Hệ thống xác nhận hoàn thành]
+        │
+        ▼
+[Tính cước]
+```
+
+## 7.4. Các trạng thái chính của chuyến
+
+Dựa trên yêu cầu của khách hàng, có thể xác định luồng trạng thái nghiệp vụ:
+
+```text
+Yêu cầu mới
+    ↓
+Đang tìm tài xế
+    ↓
+Đã có tài xế
+    ↓
+Tài xế đang đến
+    ↓
+Tài xế đã đến
+    ↓
+Đã đón khách
+    ↓
+Đang di chuyển
+    ↓
+Hoàn thành
+```
+
+## 7.5. Theo dõi chuyến
+
+Trong quá trình thực hiện, khách hàng có thể theo dõi:
+
+* Tài xế nào đã nhận chuyến.
+* Trạng thái hiện tại của chuyến.
+* Vị trí của tài xế theo thông tin hệ thống lưu nhận.
+* Thời gian dự kiến tài xế đến.
+
+Nhân viên vận hành cũng có thể theo dõi các chuyến đang diễn ra và hỗ trợ xử lý những trường hợp bất thường.
+
+---
+
+# 8. BP05 – Business Process: Tính cước và thanh toán
+
+## 8.1. Mục tiêu
+
+Xác định số tiền khách hàng phải trả sau khi chuyến đi hoàn thành và hỗ trợ thanh toán theo các phương thức được doanh nghiệp yêu cầu.
+
+## 8.2. Tác nhân
+
+* Khách hàng
+* Hệ thống CAB
+* Nhà cung cấp thanh toán bên ngoài
+* Tài xế
+
+## 8.3. Luồng nghiệp vụ
+
+```text
+          [Chuyến hoàn thành]
+                  │
+                  ▼
+            [Tính cước]
+                  │
+                  ▼
+        [Xác định số tiền phải trả]
+                  │
+                  ▼
+          [Chọn phương thức]
+                  │
+          ┌───────┴────────┐
+          │                │
+       Tiền mặt       Thanh toán điện tử
+          │                │
+          ▼                ▼
+ [Xác nhận thanh toán] [Gửi yêu cầu đến
+          │             nhà cung cấp]
+          │                │
+          │                ▼
+          │         [Xử lý giao dịch]
+          │                │
+          │          ┌─────┴─────┐
+          │          │           │
+          │       Thành công   Thất bại
+          │          │           │
+          │          ▼           ▼
+          │      [Xác nhận] [Thông báo lỗi]
+          │          │           │
+          │          │      [Xử lý lại theo
+          │          │       chính sách]
+          │          │
+          └──────────┴───────────┐
+                                 ▼
+                       [Cập nhật kết quả]
+                                 │
+                                 ▼
+                         [Thông báo khách hàng]
+```
+
+## 8.4. Quy tắc nghiệp vụ
+
+* Sau khi chuyến hoàn thành, hệ thống phải xác định số tiền phải trả.
+* Hỗ trợ thanh toán tiền mặt.
+* Hỗ trợ thanh toán điện tử.
+* Thanh toán điện tử được thực hiện thông qua nhà cung cấp bên ngoài.
+* CAB System không lưu trực tiếp thông tin nhạy cảm của thẻ hoặc tài khoản thanh toán.
+* Nếu giao dịch thất bại, khách hàng phải được thông báo.
+* Việc xử lý lại giao dịch được thực hiện theo chính sách của doanh nghiệp.
+
+> **Điểm cần làm rõ:** Tài liệu chưa xác định công thức tính cước cụ thể và chính sách xử lý lại giao dịch thất bại. Vì vậy, hai nội dung này chưa được đặc tả thành quy tắc chi tiết.
+
+---
+
+# 9. BP06 – Business Process: Thông báo
+
+## 9.1. Mục tiêu
+
+Đảm bảo khách hàng và tài xế nhận được thông tin kịp thời khi trạng thái của yêu cầu hoặc chuyến đi thay đổi.
+
+## 9.2. Các sự kiện cần thông báo
+
+### Đối với khách hàng
+
+Hệ thống cần thông báo khi:
+
+1. Yêu cầu đặt xe được tiếp nhận.
+2. Tài xế nhận chuyến.
+3. Tài xế đến điểm đón.
+4. Chuyến hoàn thành.
+5. Thanh toán có kết quả.
+6. Không tìm được tài xế.
+
+### Đối với tài xế
+
+Hệ thống cần thông báo:
+
+1. Có chuyến mới phù hợp.
+2. Có thay đổi liên quan đến chuyến đang thực hiện.
+
+## 9.3. Business Process
+
+```text
+        [Sự kiện nghiệp vụ xảy ra]
+                    │
+                    ▼
+             [Xác định sự kiện]
+                    │
+                    ▼
+             [Xác định người nhận]
+                    │
+                    ▼
+             [Tạo thông báo]
+                    │
+                    ▼
+             [Gửi thông báo]
+                    │
+                    ▼
+              [Cập nhật kết quả]
+```
+
+Hệ thống cần được thiết kế theo hướng có thể bổ sung thêm các kênh thông báo trong tương lai mà không phải thay đổi toàn bộ hệ thống.
+
+---
+
+# 10. BP07 – Business Process: Quản trị và giám sát vận hành
+
+## 10.1. Mục tiêu
+
+Hỗ trợ nhân viên vận hành quản lý và giám sát hoạt động của CAB System.
+
+## 10.2. Tác nhân
+
+* Nhân viên vận hành
+* Ban lãnh đạo
+* Hệ thống CAB
+
+## 10.3. Luồng nghiệp vụ
+
+```text
+             [Nhân viên đăng nhập]
+                       │
+                       ▼
+                [Xác thực quyền]
+                       │
+                       ▼
+                [Giao diện quản trị]
+                       │
+          ┌────────────┼────────────┐
+          ▼            ▼            ▼
+    [Quản lý KH]   [Quản lý TX] [Quản lý xe]
+          │            │            │
+          └────────────┼────────────┘
+                       ▼
+                [Quản lý chuyến]
+                       │
+          ┌────────────┼────────────┐
+          ▼            ▼            ▼
+    [Theo dõi chuyến] [Xử lý lỗi] [Tra cứu giao dịch]
+          │            │            │
+          └────────────┼────────────┘
+                       ▼
+                  [Ghi Audit Log]
+```
+
+## 10.4. Các hoạt động chính
+
+Nhân viên vận hành có thể:
+
+* Quản lý khách hàng.
+* Quản lý tài xế.
+* Quản lý phương tiện.
+* Quản lý chuyến đi.
+* Theo dõi các chuyến đang diễn ra.
+* Kiểm tra trạng thái tài xế.
+* Hỗ trợ xử lý chuyến bị lỗi.
+* Tra cứu lịch sử giao dịch.
+* Thực hiện các thao tác theo quyền được cấp.
+
+Các thao tác quản trị quan trọng phải được kiểm soát quyền truy cập và lưu vết.
+
+---
+
+# 11. BP08 – Business Process: Báo cáo hoạt động
+
+## 11.1. Mục tiêu
+
+Cung cấp dữ liệu phục vụ Ban lãnh đạo và bộ phận vận hành đánh giá hiệu quả hoạt động của CAB System.
+
+## 11.2. Luồng nghiệp vụ
+
+```text
+          [Dữ liệu hệ thống]
+                 │
+        ┌────────┼────────┐
+        ▼        ▼        ▼
+     Chuyến   Giao dịch  Tài xế
+        │        │        │
+        └────────┼────────┘
+                 ▼
+          [Tổng hợp dữ liệu]
+                 │
+                 ▼
+          [Tạo báo cáo]
+                 │
+        ┌────────┼────────┐
+        ▼        ▼        ▼
+    Số chuyến Doanh thu  Tỷ lệ hoàn thành
+        │        │        │
+        └────────┼────────┘
+                 ▼
+             [Báo cáo]
+                 │
+        ┌────────┴────────┐
+        ▼                 ▼
+   Ban lãnh đạo      Nhân viên vận hành
+```
+
+## 11.3. Các chỉ số báo cáo
+
+Theo yêu cầu khách hàng, hệ thống cần hỗ trợ báo cáo:
+
+* Số lượng chuyến.
+* Doanh thu.
+* Tỷ lệ chuyến hoàn thành.
+* Tỷ lệ hủy.
+* Hiệu quả hoạt động của tài xế.
+
+---
+
+# 12. Tổng hợp các Business Process
+
+| Mã       | Business Process              | Tác nhân chính                                | Kết quả                                 |
+| -------- | ----------------------------- | --------------------------------------------- | --------------------------------------- |
+| **BP01** | Đăng ký và quản lý tài khoản  | Khách hàng, Tài xế, NV vận hành               | Tài khoản hợp lệ                        |
+| **BP02** | Tạo yêu cầu và đặt chuyến     | Khách hàng                                    | Yêu cầu đặt xe được tạo                 |
+| **BP03** | Tìm kiếm và phân công tài xế  | Hệ thống, Tài xế                              | Có tài xế hoặc thông báo không tìm được |
+| **BP04** | Thực hiện và quản lý chuyến   | Tài xế, Khách hàng                            | Chuyến được hoàn thành                  |
+| **BP05** | Tính cước và thanh toán       | Khách hàng, Hệ thống, Nhà cung cấp thanh toán | Giao dịch được xác nhận                 |
+| **BP06** | Gửi và xử lý thông báo        | Hệ thống, Khách hàng, Tài xế                  | Thông tin được gửi đến bên liên quan    |
+| **BP07** | Quản trị và giám sát vận hành | NV vận hành                                   | Hoạt động được quản lý và giám sát      |
+| **BP08** | Báo cáo hoạt động             | Hệ thống, Ban lãnh đạo, NV vận hành           | Báo cáo quản trị                        |
+
+---
+
+# 13. Mối quan hệ giữa Business Process và Business Requirement
+
+Các Business Process được xây dựng dựa trên các Business Requirement đã xác định ở Bước 5.
+
+| Business Process                        | Business Requirements liên quan    |
+| --------------------------------------- | ---------------------------------- |
+| **BP01 – Đăng ký và quản lý tài khoản** | BR01, BR02, BR22                   |
+| **BP02 – Tạo yêu cầu và đặt chuyến**    | BR03                               |
+| **BP03 – Tìm kiếm và phân công tài xế** | BR04, BR05, BR07                   |
+| **BP04 – Thực hiện và quản lý chuyến**  | BR06, BR07, BR08, BR13, BR15       |
+| **BP05 – Tính cước và thanh toán**      | BR09, BR10, BR11, BR12             |
+| **BP06 – Thông báo**                    | BR13, BR24                         |
+| **BP07 – Quản trị và giám sát**         | BR14, BR15, BR16, BR17, BR22, BR23 |
+| **BP08 – Báo cáo**                      | BR18                               |
+
+Các yêu cầu phi chức năng như **BR19, BR20, BR21 và BR24** đóng vai trò xuyên suốt nhiều Business Process thay vì chỉ thuộc một quy trình riêng lẻ.
+
+---
+
+# 14. Business Process tổng thể của một chuyến xe
+
+Có thể tổng hợp toàn bộ nghiệp vụ đặt xe thành quy trình sau:
+
+```text
+┌──────────────────────────┐
+│ 1. KHÁCH HÀNG ĐĂNG NHẬP │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│ 2. TẠO CHUYẾN ĐI         │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│ 3. NHẬP ĐIỂM ĐÓN         │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│ 4. NHẬP ĐIỂM ĐẾN         │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│ 5. CHỌN LOẠI XE          │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│ 6. XÁC NHẬN YÊU CẦU      │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│ 7. HỆ THỐNG TÌM TÀI XẾ   │
+└────────────┬─────────────┘
+             │
+        ┌────┴─────┐
+        │          │
+        ▼          ▼
+   Không có     Có tài xế
+   tài xế          │
+        │          ▼
+        │    ┌───────────────┐
+        │    │ GỬI YÊU CẦU   │
+        │    │ CHO TÀI XẾ    │
+        │    └───────┬───────┘
+        │            │
+        │       ┌────┴────┐
+        │       │         │
+        │       ▼         ▼
+        │    Từ chối/   Chấp nhận
+        │    không PH    │
+        │       │        │
+        │       ▼        ▼
+        │  Tìm tài xế   Xác nhận
+        │    khác       chuyến
+        │       │        │
+        │       └───┐    │
+        │           │    ▼
+        │           │  Tài xế đến
+        │           │    │
+        │           │    ▼
+        │           │  Đón khách
+        │           │    │
+        │           │    ▼
+        │           │  Di chuyển
+        │           │    │
+        │           │    ▼
+        │           │ Hoàn thành
+        │           │    │
+        │           │    ▼
+        │           │ Tính cước
+        │           │    │
+        │           │ ┌──┴──────┐
+        │           │ ▼         ▼
+        │           │Tiền mặt  Điện tử
+        │           │ │         │
+        │           │ │    ┌────┴─────┐
+        │           │ │    ▼          ▼
+        │           │ │ Thành công  Thất bại
+        │           │ │    │          │
+        │           │ │    │     Thông báo /
+        │           │ │    │     xử lý lại
+        │           │ │    │          │
+        └───────────┴─┴────┴──────────┘
+                         │
+                         ▼
+                  [KẾT THÚC CHUYẾN]
+                         │
+                         ▼
+                  [ĐÁNH GIÁ TÀI XẾ]
+```
+
+---
+
+# 15. Các trường hợp ngoại lệ cần được làm rõ
+
+Trong quá trình xây dựng Business Process, nhóm nhận thấy một số nhánh nghiệp vụ chưa thể đặc tả chi tiết do tài liệu khách hàng chưa chốt.
+
+| STT | Trường hợp                     | Trạng thái                                                                     |
+| --- | ------------------------------ | ------------------------------------------------------------------------------ |
+| 1   | Không tìm được tài xế          | Đã xác định cần thông báo khách hàng, nhưng chưa xác định chính sách tiếp theo |
+| 2   | Tài xế không phản hồi          | Đã xác định cần tìm tài xế khác, nhưng chưa xác định thời gian chờ             |
+| 3   | Tài xế từ chối                 | Đã xác định cần tìm tài xế khác                                                |
+| 4   | Thanh toán điện tử thất bại    | Đã xác định cần thông báo và xử lý lại theo chính sách                         |
+| 5   | Mất kết nối mạng               | Chưa xác định cách xử lý cụ thể                                                |
+| 6   | Khách hàng hủy chuyến          | Chưa xác định chính sách hủy chuyến                                            |
+| 7   | Tài xế hủy chuyến sau khi nhận | Chưa xác định quy tắc xử lý cụ thể                                             |
+| 8   | Tính cước                      | Chưa xác định công thức cụ thể                                                 |
+| 9   | Ưu tiên tài xế                 | Chưa xác định tiêu chí/trọng số cụ thể                                         |
+| 10  | Lưu trữ dữ liệu                | Chưa xác định thời gian lưu trữ                                                |
+
+Nhóm **không tự ý đưa ra các quy tắc chưa được khách hàng xác nhận**, vì những giả định này có thể dẫn đến sai lệch yêu cầu.
+
+---
+
+# 16. Các Business Process cần ưu tiên phân tích sâu
+
+Do thời gian xây dựng và triển khai sản phẩm dự kiến chỉ **7 tuần**, nhóm đề xuất ưu tiên phân tích sâu các Business Process có ảnh hưởng trực tiếp đến hoạt động cốt lõi của CAB System.
+
+### Ưu tiên 1 – Quy trình đặt xe
+
+```text
+Tạo chuyến
+→ Xác nhận điểm đón
+→ Xác nhận điểm đến
+→ Chọn loại xe
+→ Gửi yêu cầu
+```
+
+### Ưu tiên 2 – Quy trình tìm và phân công tài xế
+
+```text
+Tìm tài xế
+→ Kiểm tra phù hợp
+→ Gửi yêu cầu
+→ Chấp nhận?
+→ Có: xác nhận chuyến
+→ Không: tìm tài xế tiếp theo
+→ Không còn: thông báo khách hàng
+```
+
+### Ưu tiên 3 – Quy trình thực hiện chuyến
+
+```text
+Nhận chuyến
+→ Đang đến
+→ Đã đến
+→ Đón khách
+→ Đang di chuyển
+→ Hoàn thành
+```
+
+### Ưu tiên 4 – Quy trình thanh toán
+
+```text
+Hoàn thành chuyến
+→ Tính cước
+→ Chọn phương thức
+→ Thanh toán
+→ Xác nhận kết quả
+```
+
+Các quy trình **Thông báo, Quản trị, Giám sát và Báo cáo** được triển khai song song để hỗ trợ các quy trình cốt lõi.
+
+---
+
+# 17. Kết luận
+
+Qua Bước 6, nhóm đã chuyển các Business Requirement thành các **Business Process cụ thể**, qua đó mô tả được cách CAB System hỗ trợ hoạt động kinh doanh từ đầu đến cuối.
+
+Quy trình nghiệp vụ trung tâm của hệ thống được xác định là:
+
+> **Tạo chuyến → Xác nhận điểm đón → Xác nhận điểm đến → Chọn loại xe → Gửi yêu cầu → Tìm tài xế → Tài xế chấp nhận/từ chối → Thực hiện chuyến → Hoàn thành → Tính cước → Thanh toán → Đánh giá.**
+
+Trong đó, điểm quyết định quan trọng nhất là **quá trình tìm và phân công tài xế**. Nếu tìm được tài xế phù hợp và tài xế chấp nhận, hệ thống chuyển sang thực hiện chuyến. Nếu tài xế từ chối hoặc không phản hồi, hệ thống phải tiếp tục tìm tài xế khác mà khách hàng không cần tạo lại yêu cầu. Nếu không còn tài xế phù hợp, hệ thống phải thông báo rõ ràng cho khách hàng.
+
+Bên cạnh luồng chính, nhóm cũng xác định các trường hợp ngoại lệ như **không tìm được tài xế, tài xế không phản hồi, tài xế từ chối, thanh toán thất bại, mất kết nối và hủy chuyến**. Những nội dung chưa được khách hàng chốt sẽ tiếp tục được đưa vào danh sách cần làm rõ, thay vì tự ý đặt ra quy tắc.
+
+Business Process ở bước này là cơ sở để nhóm tiếp tục phát triển các nội dung chi tiết hơn ở các bước sau, đặc biệt là **Business Use Case, Activity Diagram, Functional Requirement, Business Rule và Acceptance Criteria**.
+
 
 
 
