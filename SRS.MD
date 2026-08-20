@@ -311,4 +311,215 @@ Trong đó, **Ban giám đốc và Nhân viên vận hành** được đánh gi�
 
 Việc xác định và phân loại stakeholder giúp nhóm Business Analyst xác định **ai cần được trao đổi thường xuyên, ai cần được tham gia xác nhận yêu cầu và ai cần được cập nhật thông tin**, từ đó hạn chế nguy cơ bỏ sót yêu cầu hoặc xảy ra mâu thuẫn giữa các bên liên quan trong quá trình xây dựng CAB System.
 
+# BƯỚC 3: XÁC ĐỊNH CÁC BUSINESS GOAL
+
+## 1. Khái niệm Business Goal
+
+**Business Goal (BG)** là những mục tiêu mà doanh nghiệp mong muốn đạt được thông qua việc xây dựng hệ thống. Business Goal tập trung vào **giá trị và kết quả mà doanh nghiệp muốn đạt được**, thay vì chỉ mô tả các chức năng kỹ thuật của hệ thống.
+
+Dựa trên yêu cầu sơ khởi của Công ty ABC, nhóm xác định các Business Goal chính của dự án **CAB System – Nền tảng đặt xe** như sau:
+
+---
+
+## 2. Danh sách Business Goal
+
+| Mã       | Business Goal                                                       | Mục đích                                                                                                                           | Chức năng hệ thống hỗ trợ                                                                                                                                         |
+| -------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **BG01** | **Giảm thời gian tìm và phân công tài xế**                          | Giảm sự phụ thuộc vào việc phân công tài xế thủ công, giúp khách hàng nhanh chóng được kết nối với tài xế phù hợp.                 | Tự động tìm và phân công tài xế dựa trên vị trí, trạng thái sẵn sàng và các tiêu chí vận hành; ưu tiên tài xế phù hợp và gần khách hàng.                          |
+| **BG02** | **Nâng cao khả năng theo dõi và quản lý chuyến đi**                 | Giúp khách hàng và bộ phận vận hành dễ dàng theo dõi trạng thái chuyến đi, từ lúc tạo yêu cầu đến khi hoàn thành.                  | Theo dõi trạng thái chuyến, vị trí tài xế, thời gian dự kiến tài xế đến và gửi thông báo theo từng sự kiện của chuyến.                                            |
+| **BG03** | **Cung cấp phương thức thanh toán thuận tiện và linh hoạt**         | Đáp ứng nhu cầu thanh toán đa dạng của khách hàng và hỗ trợ doanh nghiệp quản lý quá trình thanh toán.                             | Hỗ trợ thanh toán bằng tiền mặt và thanh toán điện tử thông qua nhà cung cấp thanh toán bên ngoài.                                                                |
+| **BG04** | **Nâng cao hiệu quả quản lý và vận hành**                           | Giảm khó khăn trong công tác quản lý, giúp doanh nghiệp quản lý tập trung các đối tượng và hoạt động liên quan đến dịch vụ đặt xe. | Cung cấp giao diện quản trị để quản lý khách hàng, tài xế, phương tiện, chuyến đi, giao dịch và xử lý các trường hợp lỗi.                                         |
+| **BG05** | **Xây dựng nền tảng CAB có khả năng mở rộng và phát triển lâu dài** | Đảm bảo hệ thống có thể phục vụ số lượng lớn khách hàng và tài xế, đồng thời đáp ứng nhu cầu bổ sung tính năng trong tương lai.    | Thiết kế hệ thống có khả năng mở rộng độc lập, cho phép bổ sung loại dịch vụ, phương thức thanh toán, nhà cung cấp thông báo và thay đổi các thành phần kỹ thuật. |
+
+---
+
+# 3. Phân tích chi tiết từng Business Goal
+
+## BG01 – Giảm thời gian tìm và phân công tài xế
+
+### Mục tiêu
+
+Giảm thời gian tìm kiếm và phân công tài xế, đồng thời giảm sự phụ thuộc vào quá trình phân công thủ công hiện tại.
+
+### Cơ sở xác định
+
+Hệ thống hiện tại của Công ty ABC có hạn chế là việc phân công tài xế chủ yếu được thực hiện thủ công. Doanh nghiệp mong muốn xây dựng một nền tảng mới có khả năng phục vụ số lượng lớn khách hàng và tài xế.
+
+### Chức năng hệ thống hỗ trợ
+
+Khi khách hàng tạo yêu cầu đặt xe, hệ thống cần:
+
+1. Xác định các tài xế phù hợp.
+2. Kiểm tra vị trí của tài xế.
+3. Kiểm tra trạng thái sẵn sàng nhận chuyến.
+4. Áp dụng các tiêu chí vận hành để lựa chọn tài xế.
+5. Ưu tiên tài xế phù hợp và gần khách hàng.
+6. Nếu tài xế không phản hồi hoặc từ chối, tiếp tục tìm tài xế khác.
+7. Nếu không tìm được tài xế, thông báo rõ ràng cho khách hàng.
+
+### Giá trị mang lại
+
+Business Goal này giúp doanh nghiệp giảm thao tác thủ công trong quá trình điều phối, nâng cao hiệu quả phân công tài xế và cải thiện trải nghiệm đặt xe của khách hàng.
+
+---
+
+## BG02 – Nâng cao khả năng theo dõi và quản lý chuyến đi
+
+### Mục tiêu
+
+Cải thiện khả năng theo dõi chuyến đi, giúp khách hàng biết được tình trạng yêu cầu đặt xe và giúp nhân viên vận hành có thể giám sát các chuyến đang diễn ra.
+
+### Cơ sở xác định
+
+Một hạn chế của hệ thống hiện tại là khách hàng khó theo dõi trạng thái chuyến đi. Hệ thống mới cần cho phép khách hàng biết hệ thống đang tìm tài xế, tài xế nào đã nhận chuyến, thời gian dự kiến tài xế đến và trạng thái hiện tại của chuyến.
+
+### Chức năng hệ thống hỗ trợ
+
+Hệ thống cần hỗ trợ theo dõi các trạng thái chính của chuyến:
+
+```text
+Khách hàng tạo yêu cầu
+        ↓
+Đang tìm tài xế
+        ↓
+Tài xế đã nhận chuyến
+        ↓
+Tài xế đến điểm đón
+        ↓
+Đã đón khách
+        ↓
+Đang di chuyển
+        ↓
+Hoàn thành chuyến
+```
+
+Ngoài ra, hệ thống cần lưu thông tin vị trí của tài xế để hỗ trợ tìm tài xế gần khách hàng và cải thiện khả năng dự kiến thời gian tài xế đến.
+
+Hệ thống cũng phải gửi thông báo cho khách hàng khi yêu cầu được tiếp nhận, tài xế nhận chuyến, tài xế đến điểm đón và chuyến hoàn thành.
+
+### Giá trị mang lại
+
+Business Goal này giúp tăng tính minh bạch của dịch vụ, giúp khách hàng chủ động theo dõi chuyến đi và giúp bộ phận vận hành có khả năng giám sát, hỗ trợ xử lý các chuyến đang diễn ra.
+
+---
+
+## BG03 – Cung cấp phương thức thanh toán thuận tiện và linh hoạt
+
+### Mục tiêu
+
+Đáp ứng nhu cầu thanh toán đa dạng của khách hàng bằng cách hỗ trợ cả thanh toán trực tiếp và thanh toán điện tử.
+
+### Cơ sở xác định
+
+Tài liệu yêu cầu hệ thống sau khi chuyến đi hoàn thành phải xác định số tiền khách hàng phải trả. Khách hàng có thể thanh toán bằng **tiền mặt hoặc phương thức thanh toán điện tử**. Doanh nghiệp mong muốn tích hợp với một nhà cung cấp thanh toán bên ngoài.
+
+### Chức năng hệ thống hỗ trợ
+
+Hệ thống cần:
+
+* Tính số tiền khách hàng phải trả dựa trên loại dịch vụ và thông tin chuyến đi.
+* Hỗ trợ thanh toán bằng tiền mặt.
+* Hỗ trợ thanh toán điện tử.
+* Tích hợp với nhà cung cấp thanh toán bên ngoài.
+* Không lưu trực tiếp thông tin nhạy cảm của thẻ hoặc tài khoản thanh toán.
+* Thông báo kết quả giao dịch cho khách hàng.
+* Cho phép xử lý lại khi giao dịch điện tử thất bại theo chính sách của doanh nghiệp.
+
+### Giá trị mang lại
+
+Business Goal này giúp tăng sự thuận tiện cho khách hàng, đồng thời tạo nền tảng cho doanh nghiệp quản lý quá trình tính cước và thanh toán một cách tập trung.
+
+---
+
+## BG04 – Nâng cao hiệu quả quản lý và vận hành
+
+### Mục tiêu
+
+Cải thiện khả năng quản lý tập trung và hỗ trợ nhân viên vận hành trong việc giám sát hoạt động của hệ thống CAB.
+
+### Cơ sở xác định
+
+Doanh nghiệp yêu cầu một giao diện quản trị để quản lý khách hàng, tài xế, phương tiện và chuyến đi. Nhân viên vận hành cũng cần theo dõi các chuyến đang diễn ra, kiểm tra trạng thái tài xế, xử lý các chuyến bị lỗi và tra cứu lịch sử giao dịch.
+
+### Chức năng hệ thống hỗ trợ
+
+Hệ thống cần cung cấp:
+
+* Giao diện quản trị.
+* Quản lý khách hàng.
+* Quản lý tài xế.
+* Quản lý phương tiện.
+* Quản lý chuyến đi.
+* Theo dõi các chuyến đang diễn ra.
+* Kiểm tra trạng thái tài xế.
+* Hỗ trợ xử lý các chuyến bị lỗi.
+* Tra cứu lịch sử giao dịch.
+* Phân quyền các chức năng quản trị.
+* Báo cáo số lượng chuyến, doanh thu, tỷ lệ hoàn thành, tỷ lệ hủy và hiệu quả hoạt động của tài xế.
+
+### Giá trị mang lại
+
+Business Goal này giúp giảm khó khăn trong công tác vận hành, tăng khả năng kiểm soát hoạt động và cung cấp dữ liệu cần thiết để doanh nghiệp đánh giá hiệu quả kinh doanh.
+
+---
+
+## BG05 – Xây dựng nền tảng CAB có khả năng mở rộng và phát triển lâu dài
+
+### Mục tiêu
+
+Xây dựng CAB System không chỉ đáp ứng nhu cầu đặt xe hiện tại mà còn có khả năng mở rộng khi số lượng người dùng tăng và khi doanh nghiệp phát triển thêm các dịch vụ, phương thức thanh toán hoặc thành phần kỹ thuật mới.
+
+### Cơ sở xác định
+
+Ban lãnh đạo mong muốn hệ thống mới có thể phục vụ số lượng lớn khách hàng và tài xế, đồng thời có thể phát triển thêm các tính năng trong tương lai.
+
+Tài liệu cũng yêu cầu các thành phần của hệ thống có khả năng mở rộng độc lập khi tải tăng và các chức năng mới có thể được triển khai từng phần mà hạn chế ảnh hưởng đến các chức năng đang hoạt động.
+
+### Chức năng / đặc tính hệ thống hỗ trợ
+
+Hệ thống cần có khả năng:
+
+* Mở rộng khi số lượng khách hàng và tài xế tăng.
+* Mở rộng độc lập các thành phần khi tải tăng.
+* Bổ sung các loại dịch vụ mới.
+* Bổ sung phương thức thanh toán mới.
+* Bổ sung nhà cung cấp thông báo mới.
+* Thay đổi một số thành phần kỹ thuật mà không phải xây dựng lại toàn bộ ứng dụng.
+* Triển khai chức năng mới từng phần và hạn chế ảnh hưởng đến hệ thống đang hoạt động.
+
+### Giá trị mang lại
+
+Business Goal này giúp doanh nghiệp có một nền tảng có khả năng phát triển lâu dài, giảm sự phụ thuộc vào việc xây dựng lại toàn bộ hệ thống khi nhu cầu kinh doanh thay đổi.
+
+---
+
+# 4. Mối quan hệ giữa Business Goal và chức năng hệ thống
+
+Các Business Goal trên được chuyển hóa thành các nhóm chức năng chính của CAB System như sau:
+
+| Business Goal                                                          | Chức năng hệ thống hỗ trợ                                                                            |
+| ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| **BG01 – Giảm thời gian tìm và phân công tài xế**                      | Tìm tài xế, xác định tài xế phù hợp, ưu tiên tài xế gần khách hàng, tự động tìm tài xế tiếp theo     |
+| **BG02 – Nâng cao khả năng theo dõi và quản lý chuyến đi**             | Theo dõi trạng thái chuyến, theo dõi vị trí, dự kiến thời gian đến, thông báo                        |
+| **BG03 – Cung cấp phương thức thanh toán thuận tiện và linh hoạt**     | Tính cước, thanh toán tiền mặt, thanh toán điện tử, tích hợp nhà cung cấp thanh toán                 |
+| **BG04 – Nâng cao hiệu quả quản lý và vận hành**                       | Giao diện quản trị, quản lý dữ liệu, giám sát chuyến, xử lý sự cố, báo cáo                           |
+| **BG05 – Xây dựng nền tảng có khả năng mở rộng và phát triển lâu dài** | Kiến trúc mở rộng, triển khai từng phần, bổ sung dịch vụ, phương thức thanh toán và nhà cung cấp mới |
+
+---
+
+# 5. Kết luận
+
+Qua phân tích yêu cầu sơ khởi, nhóm xác định **05 Business Goal chính** cho dự án CAB System:
+
+1. **BG01 – Giảm thời gian tìm và phân công tài xế.**
+2. **BG02 – Nâng cao khả năng theo dõi và quản lý chuyến đi.**
+3. **BG03 – Cung cấp phương thức thanh toán thuận tiện và linh hoạt.**
+4. **BG04 – Nâng cao hiệu quả quản lý và vận hành.**
+5. **BG05 – Xây dựng nền tảng CAB có khả năng mở rộng và phát triển lâu dài.**
+
+Các Business Goal này thể hiện những kết quả mà Công ty ABC mong muốn đạt được thông qua việc xây dựng hệ thống, trong khi các chức năng của CAB System đóng vai trò là phương tiện để hỗ trợ đạt được những mục tiêu đó.
+
+Trong đó, **BG01** tập trung giải quyết vấn đề phân công tài xế thủ công; **BG02** giải quyết vấn đề khó theo dõi chuyến đi; **BG03** đáp ứng nhu cầu thanh toán bằng tiền mặt và trực tuyến; **BG04** cải thiện hoạt động quản lý và vận hành; và **BG05** đảm bảo hệ thống có khả năng mở rộng, phát triển lâu dài theo định hướng của doanh nghiệp. Những mục tiêu này được xây dựng dựa trên các vấn đề hiện tại và kỳ vọng của khách hàng được nêu trong tài liệu yêu cầu.
+
+
 
