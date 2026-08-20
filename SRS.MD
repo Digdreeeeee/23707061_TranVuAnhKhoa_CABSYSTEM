@@ -2244,3 +2244,134 @@ BR01 – Tìm kiếm và lựa chọn tài xế	FR01	Xác định vị trí khá
 - **AC05:** Nếu tài xế từ chối chuyến, hệ thống chuyển yêu cầu cho tài xế tiếp theo.
 - **AC06:** Nếu tài xế nhận chuyến, hệ thống xác nhận chuyến và cập nhật trạng thái tài xế thành Đang bận.
 - **AC07:** Nếu không còn tài xế phù hợp, hệ thống thông báo cho khách hàng.
+
+BƯỚC 9: MÔ HÌNH ERD
+
+erDiagram
+
+    CUSTOMER {
+        int customer_id PK
+        varchar full_name
+        varchar phone UK
+        varchar email UK
+        varchar status
+        datetime created_at
+    }
+
+    DRIVER {
+        int driver_id PK
+        varchar full_name
+        varchar phone UK
+        varchar license_number UK
+        decimal rating_avg
+        int status_id FK
+        int vehicle_id FK
+        decimal current_latitude
+        decimal current_longitude
+        boolean is_online
+    }
+
+    DRIVER_STATUS {
+        int status_id PK
+        varchar status_name
+        text description
+    }
+
+    VEHICLE {
+        int vehicle_id PK
+        int driver_id FK
+        int vehicle_type_id FK
+        varchar license_plate UK
+        varchar brand
+        varchar model
+        varchar color
+    }
+
+    VEHICLE_TYPE {
+        int vehicle_type_id PK
+        varchar type_name
+        text description
+        decimal base_price
+    }
+
+    BOOKING {
+        int booking_id PK
+        int customer_id FK
+        int vehicle_type_id FK
+        varchar pickup_address
+        decimal pickup_latitude
+        decimal pickup_longitude
+        varchar destination_address
+        decimal destination_latitude
+        decimal destination_longitude
+        varchar status
+        datetime created_at
+    }
+
+    DRIVER_ASSIGNMENT {
+        int assignment_id PK
+        int booking_id FK
+        int driver_id FK
+        decimal distance_km
+        decimal priority_score
+        varchar assignment_status
+        datetime sent_at
+        datetime expired_at
+        datetime responded_at
+    }
+
+    TRIP {
+        int trip_id PK
+        int booking_id FK
+        int driver_id FK
+        datetime started_at
+        datetime completed_at
+        varchar trip_status
+        decimal distance_km
+        decimal total_fare
+    }
+
+    PAYMENT {
+        int payment_id PK
+        int trip_id FK
+        decimal amount
+        varchar payment_method
+        varchar payment_status
+        datetime paid_at
+    }
+
+    RATING {
+        int rating_id PK
+        int trip_id FK
+        int customer_id FK
+        int driver_id FK
+        int rating_score
+        text comment
+        datetime created_at
+    }
+
+    CUSTOMER ||--o{ BOOKING : creates
+
+    DRIVER_STATUS ||--o{ DRIVER : has
+
+    DRIVER ||--o{ VEHICLE : uses
+
+    VEHICLE_TYPE ||--o{ VEHICLE : classifies
+
+    VEHICLE_TYPE ||--o{ BOOKING : selected_for
+
+    BOOKING ||--o{ DRIVER_ASSIGNMENT : generates
+
+    DRIVER ||--o{ DRIVER_ASSIGNMENT : receives
+
+    BOOKING ||--|| TRIP : becomes
+
+    DRIVER ||--o{ TRIP : performs
+
+    TRIP ||--|| PAYMENT : has
+
+    TRIP ||--|| RATING : receives
+
+    CUSTOMER ||--o{ RATING : gives
+
+    DRIVER ||--o{ RATING : receives
